@@ -1,0 +1,17 @@
+[package]
+name = "mail-autodiscover-autoconfig"
+version = "0.1.0"
+authors = ["William Desportes <williamdes@wdes.fr>"]
+edition = "2021"
+
+[dependencies]
+# ENV
+dotenv = "0.15.0"
+
+# Webserver
+rocket = { version = "0.5.0-rc.2", features = ["json"] }
+
+# Serialization/Deserialization
+serde_json = "1.0.64"
+serde = "1.0.126"
+serde_derive = "1.0.126"
