@@ -6,8 +6,10 @@
 - Microsoft
 - Apple (kind of)
 
-## Install
+## Use it
 
-- Copy .env.dist
+Pull the [image](https://hub.docker.com/r/wdes/mail-autodiscover-autoconfig): `docker pull wdes/mail-autodiscover-autoconfig`
+
+- Copy [.env.dist]()
 - Fill values
 - Run
