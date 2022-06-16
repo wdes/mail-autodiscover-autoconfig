@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<clientConfig version="1.1">
+    <emailProvider id="{{ domain }}">
+        <domain>{{ domain }}</domain>
+        <displayName>{{ display_name }}</displayName>
+        <displayShortName>%EMAILLOCALPART%</displayShortName>
+
+        <incomingServer type="imap">
+            <hostname>{{ imap_hostname }}</hostname>
+            <port>993</port>
+            <socketType>SSL</socketType>
+            <authentication>password-cleartext</authentication>
+            <username>%EMAILADDRESS%</username>
+        </incomingServer>
+        <incomingServer type="imap">
+            <hostname>{{ imap_hostname }}</hostname>
+            <port>143</port>
+            <socketType>STARTTLS</socketType>
+            <authentication>password-cleartext</authentication>
+            <username>%EMAILADDRESS%</username>
+        </incomingServer>
+
+        <incomingServer type="pop3">
+            <hostname>{{ pop_hostname }}</hostname>
+            <port>995</port>
+            <socketType>SSL</socketType>
+            <authentication>password-cleartext</authentication>
+            <username>%EMAILADDRESS%</username>
+            <leaveMessagesOnServer>false</leaveMessagesOnServer>
+            <downloadOnBiff>true</downloadOnBiff>
+            <daysToLeaveMessagesOnServer>0</daysToLeaveMessagesOnServer>
+        </incomingServer>
+        <incomingServer type="pop3">
+            <hostname>{{ pop_hostname }}</hostname>
+            <port>110</port>
+            <socketType>STARTTLS</socketType>
+            <authentication>password-cleartext</authentication>
+            <username>%EMAILADDRESS%</username>
+            <leaveMessagesOnServer>false</leaveMessagesOnServer>
+            <downloadOnBiff>true</downloadOnBiff>
+            <daysToLeaveMessagesOnServer>0</daysToLeaveMessagesOnServer>
+        </incomingServer>
+
+        <outgoingServer type="smtp">
+            <hostname>{{ smtp_hostname }}</hostname>
+            <port>465</port>
+            <socketType>SSL</socketType>
+            <authentication>password-cleartext</authentication>
+            <username>%EMAILADDRESS%</username>
+        </outgoingServer>
+        <outgoingServer type="smtp">
+            <hostname>{{ smtp_hostname }}</hostname>
+            <port>587</port>
+            <socketType>STARTTLS</socketType>
+            <authentication>password-cleartext</authentication>
+            <username>%EMAILADDRESS%</username>
+        </outgoingServer>
+
+    </emailProvider>
+</clientConfig>

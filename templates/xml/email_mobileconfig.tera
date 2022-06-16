@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>EmailAccountDescription</key>
+			<string>{{ display_name }}</string>
+			<key>EmailAccountName</key>
+			<string>{{ display_name }}</string>
+			<key>EmailAccountType</key>
+			<string>EmailTypeIMAP</string>
+			<key>EmailAddress</key>
+			<string>{{ email_address }}</string>
+			<key>IncomingMailServerAuthentication</key>
+			<string>EmailAuthPassword</string>
+			<key>IncomingMailServerHostName</key>
+			<string>{{ imap_hostname }}</string>
+			<key>IncomingMailServerPortNumber</key>
+			<integer>993</integer>
+			<key>IncomingMailServerUseSSL</key>
+			<true/>
+			<key>IncomingMailServerUsername</key>
+			<string>{{ username }}</string>
+			<key>OutgoingMailServerAuthentication</key>
+			<string>EmailAuthPassword</string>
+			<key>OutgoingMailServerHostName</key>
+			<string>{{ smtp_hostname }}</string>
+			<key>OutgoingMailServerPortNumber</key>
+			<integer>465</integer>
+			<key>OutgoingMailServerUseSSL</key>
+			<true/>
+			<key>OutgoingMailServerUsername</key>
+			<string>{{ username }}</string>
+			<key>OutgoingPasswordSameAsIncomingPassword</key>
+			<true/>
+			<key>PayloadDescription</key>
+			<string>Email account configuration for {{ email_address }}</string>
+			<key>PayloadDisplayName</key>
+			<string>{{ display_name }}</string>
+			<key>PayloadIdentifier</key>
+			<string>{{ domain }}.autoconfig.{{ profile_uuid }}</string>
+			<key>PayloadType</key>
+			<string>com.apple.mail.managed</string>
+			<key>PayloadUUID</key>
+			<string>{{ profile_uuid }}</string>
+			<key>PayloadVersion</key>
+			<real>1</real>
+			<key>SMIMEEnablePerMessageSwitch</key>
+			<false/>
+			<key>SMIMEEnabled</key>
+			<false/>
+			<key>SMIMESigningEnabled</key>
+			<false/>
+			<key>disableMailRecentsSyncing</key>
+			<false/>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Email account configuration for {{ email_address }}</string>
+	<key>PayloadDisplayName</key>
+	<string>{{ display_name }}</string>
+	<key>PayloadIdentifier</key>
+	<string>{{ domain }}.autoconfig.{{ mail_uuid }}</string>
+	<key>PayloadOrganization</key>
+	<string>{{ domain }}</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>{{ mail_uuid }}</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

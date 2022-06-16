@@ -1,13 +1,14 @@
+use crate::host_header::HostHeader;
 use crate::ressources::Version::Version;
 use rocket::serde::json::Json;
-use rocket_dyn_templates::{context, tera::Tera, Template};
+use rocket_dyn_templates::{context, Template};
 
 #[get("/")]
-pub fn index() -> Template {
+pub fn index(host: HostHeader) -> Template {
     Template::render(
         "index",
         context! {
-            name: "Foo"
+            name: host.0
         },
     )
 }

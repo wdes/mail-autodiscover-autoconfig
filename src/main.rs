@@ -9,8 +9,8 @@ extern crate tera;
 
 use crate::dotenv::dotenv;
 use rocket_dyn_templates::Template;
-use std::env;
 
+pub mod host_header;
 pub mod ressources;
 pub mod routes;
 
@@ -27,6 +27,11 @@ fn rocket() -> _ {
             routes::tech::index,
             routes::tech::robots,
             routes::tech::version,
+            routes::autoconfig::mail_config_v11,
+            routes::autoconfig::mail_autodiscover_microsoft,
+            routes::autoconfig::mail_autodiscover_microsoft_case,
+            routes::autoconfig::mail_autodiscover_microsoft_camel_case,
+            routes::autoconfig::mail_autodiscover_microsoft_apple,
         ],
     )
 }
