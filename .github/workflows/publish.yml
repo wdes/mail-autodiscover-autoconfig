@@ -1,0 +1,26 @@
+name: Publish Docker image
+on:
+    release:
+        types: [published]
+
+jobs:
+    publish-docker-image:
+        environment:
+            name: "docker-hub"
+            url: https://hub.docker.com/r/wdes/mail-autodiscover-autoconfig
+        name: Build and test image and publish the image
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            - name: Build docker image
+              run: make build-docker
+            - name: Test docker image
+              run: make test
+            - name: Login to DockerHub
+              uses: docker/login-action@v1
+              with:
+                  username: ${{ secrets.DOCKER_HUB_USER }}
+                  password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+            - name: Push docker image
+              run: make push-docker
