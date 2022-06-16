@@ -16,7 +16,7 @@ Save this `docker-compose.yml` file and adjust it for your needs.
 version: "3"
 
 services:
-    mailserver:
+    mail-autodiscover-autoconfig:
         image: wdes/mail-autodiscover-autoconfig:latest
         mem_limit: 120M
         mem_reservation: 50M
