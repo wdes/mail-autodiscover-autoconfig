@@ -1,5 +1,5 @@
 use crate::host_header::HostHeader;
-use crate::ressources::AutoDiscoverJson::AutoDiscoverJson;
+use crate::ressources::AutoDiscoverJson::{AutoDiscoverJson, AutoDiscoverJsonError};
 use rocket::serde::json::Json;
 use rocket_dyn_templates::{context, Template};
 use std::env;
@@ -62,6 +62,7 @@ fn handle_mail_config_v11(host: HostHeader) -> Template {
 }
 
 // Used by Thunderbird (tested with: Thunderbird 91.10.0)
+// Used by FairEmail (tested with: Thunderbird 1.1917) (https://github.com/M66B/FairEmail/blob/1.1917/app/src/main/java/eu/faircode/email/EmailProvider.java#L558)
 #[get("/mail/config-v1.1.xml?<emailaddress>")]
 #[allow(unused_variables)]
 pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> Template {
@@ -84,21 +85,24 @@ pub fn post_mail_autodiscover_microsoft_json(
     Email: Option<&str>,
     Protocol: Option<&str>,
     RedirectCount: Option<&str>,
-) -> Json<Option<AutoDiscoverJson>> {
-    // TODO: else respond this
-    // {"ErrorCode":"InvalidProtocol","ErrorMessage":"The given protocol value \u0027' . preg_replace("/[^\da-z]/i", '', $_GET['Protocol']) . '\u0027 is invalid. Supported values are \u0027ActiveSync,AutodiscoverV1\u0027"}
-    Json(match Protocol {
-        None => None,
-        Some("AutodiscoverV1") => Some(AutoDiscoverJson {
+) -> Result<Json<AutoDiscoverJson>, AutoDiscoverJsonError> {
+    match Protocol {
+        Some("AutodiscoverV1") => Ok(Json(AutoDiscoverJson {
             Protocol: "AutodiscoverV1".to_string(),
             Url: "https://".to_owned() + host.0 + "/Autodiscover/Autodiscover.xml",
-        }),
+        })),
+        /*
         Some("ActiveSync") => Some(AutoDiscoverJson {
             Protocol: "ActiveSync".to_string(),
             Url: "https://".to_owned() + host.0 + "/Microsoft-Server-ActiveSync",
+        }),*/
+        _ => Err(AutoDiscoverJsonError {
+            ErrorCode: "InvalidProtocol".to_string(),
+            ErrorMessage:
+                "The given protocol value is invalid. Supported values are \"AutodiscoverV1\"."
+                    .to_string(),
         }),
-        Some(&_) => None,
-    })
+    }
 }
 
 fn autodiscover_microsoft(host: HostHeader) -> Template {
