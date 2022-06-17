@@ -9,6 +9,7 @@ extern crate tera;
 
 use crate::dotenv::dotenv;
 use rocket_dyn_templates::Template;
+use std::env;
 
 pub mod host_header;
 pub mod ressources;
@@ -20,6 +21,9 @@ fn rocket() -> _ {
         "Wdes Mail AutoDiscover-AutoConfig (https://github.com/wdes/mail-autodiscover-autoconfig)."
     );
     dotenv().ok();
+
+    let custom_domains: String = env::var("CUSTOM_DOMAINS").expect("CUSTOM_DOMAINS must be set");
+    println!("Custom domains: {}", custom_domains);
 
     let figment = rocket::Config::figment().merge(("ident", "Wdes Mail AutoDiscover-AutoConfig"));
 
