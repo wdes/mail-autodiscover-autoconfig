@@ -42,11 +42,7 @@ fn get_config_for_domain(domain: &str) -> Config {
     }
 }
 
-// TODO: add /.well-known/autoconfig/mail/config-v1.1.xml
-// Used by Thunderbird (tested with: Thunderbird 91.10.0)
-#[get("/mail/config-v1.1.xml?<emailaddress>")]
-#[allow(unused_variables)]
-pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> Template {
+fn handle_mail_config_v11(host: HostHeader) -> Template {
     let config: Config = get_config_for_domain(host.0);
     Template::render(
         "xml/config-v1.1",
@@ -58,6 +54,19 @@ pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> Template
             smtp_hostname: config.smtp_hostname,
         },
     )
+}
+
+// Used by Thunderbird (tested with: Thunderbird 91.10.0)
+#[get("/mail/config-v1.1.xml?<emailaddress>")]
+#[allow(unused_variables)]
+pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> Template {
+    handle_mail_config_v11(host)
+}
+
+#[get("/.well-known/autoconfig/mail/config-v1.1.xml?<emailaddress>")]
+#[allow(unused_variables)]
+pub fn well_known_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> Template {
+    handle_mail_config_v11(host)
 }
 
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)

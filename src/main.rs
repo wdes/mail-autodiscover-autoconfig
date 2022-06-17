@@ -30,6 +30,7 @@ fn rocket() -> _ {
             routes::tech::robots,
             routes::tech::version,
             routes::autoconfig::mail_config_v11,
+            routes::autoconfig::well_known_mail_config_v11,
             routes::autoconfig::mail_autodiscover_microsoft,
             routes::autoconfig::mail_autodiscover_microsoft_case,
             routes::autoconfig::mail_autodiscover_microsoft_camel_case,
