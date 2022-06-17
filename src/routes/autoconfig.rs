@@ -1,4 +1,5 @@
 use crate::host_header::HostHeader;
+use crate::ressources::AppleResponse::AppleResponse;
 use crate::ressources::AutoDiscoverJson::{AutoDiscoverJson, AutoDiscoverJsonError};
 use rocket::serde::json::Json;
 use rocket_dyn_templates::{context, Template};
@@ -153,28 +154,28 @@ pub fn post_mail_autodiscover_microsoft_camel_case(host: HostHeader) -> Template
 
 // iOS / Apple Mail (/email.mobileconfig?email=username@domain.com or /email.mobileconfig?email=username)
 #[get("/email.mobileconfig?<email>")]
-pub fn mail_autodiscover_microsoft_apple(host: HostHeader, email: &str) -> Template {
+pub fn mail_autodiscover_microsoft_apple(host: HostHeader, email: &str) -> AppleResponse {
     let config: Config = get_config_for_domain(host.0);
     let mail_uuid: String = env::var("APPLE_MAIL_UUID").expect("APPLE_MAIL_UUID must be set");
     let profile_uuid: String =
         env::var("APPLE_PROFILE_UUID").expect("APPLE_PROFILE_UUID must be set");
 
-    // set("Content-Type", "application/x-apple-aspen-config; charset=utf-8");
-    // set("Content-Disposition", `attachment; filename="${domain}.mobileconfig"`);
-
     // See :https://developer.apple.com/business/documentation/Configuration-Profile-Reference.pdf
-    Template::render(
-        "xml/email_mobileconfig",
-        context! {
-            domain: config.domain,
-            display_name: config.display_name,
-            imap_hostname: config.imap_hostname,
-            pop_hostname: config.pop_hostname,
-            smtp_hostname: config.smtp_hostname,
-            email_address: email,
-            username: email,
-            mail_uuid: mail_uuid,
-            profile_uuid: profile_uuid,
-        },
-    )
+    AppleResponse {
+        domain: config.domain.to_string(),
+        template: Template::render(
+            "xml/email_mobileconfig",
+            context! {
+                domain: config.domain,
+                display_name: config.display_name,
+                imap_hostname: config.imap_hostname,
+                pop_hostname: config.pop_hostname,
+                smtp_hostname: config.smtp_hostname,
+                email_address: email,
+                username: email,
+                mail_uuid: mail_uuid,
+                profile_uuid: profile_uuid,
+            },
+        ),
+    }
 }
