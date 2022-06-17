@@ -10,7 +10,12 @@ impl<'r> FromRequest<'r> for HostHeader<'r> {
     type Error = ();
 
     async fn from_request(req: &'r Request<'_>) -> Outcome<Self, Self::Error> {
-        match req.headers().get_one("Host") {
+        let header_name: &str = match req.headers().contains("X-Forwarded-Host") {
+            true => "X-Forwarded-Host",
+            false => "Host",
+        };
+
+        match req.headers().get_one(header_name) {
             Some(h) => Outcome::Success(HostHeader(h)),
             None => Outcome::Forward(()),
         }
