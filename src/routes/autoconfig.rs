@@ -1,6 +1,7 @@
 use crate::host_header::HostHeader;
 use crate::ressources::AppleResponse::AppleResponse;
 use crate::ressources::AutoDiscoverJson::{AutoDiscoverJson, AutoDiscoverJsonError};
+use crate::ressources::AutoDiscoverXml::AutoDiscoverXml;
 use rocket::serde::json::Json;
 use rocket_dyn_templates::{context, Template};
 use std::env;
@@ -48,31 +49,34 @@ fn get_config_for_domain(domain: &str) -> Config {
     }
 }
 
-fn handle_mail_config_v11(host: HostHeader) -> Template {
+fn handle_mail_config_v11(host: HostHeader) -> AutoDiscoverXml {
     let config: Config = get_config_for_domain(host.0);
-    Template::render(
-        "xml/config-v1.1",
-        context! {
-            domain: config.domain,
-            display_name: config.display_name,
-            imap_hostname: config.imap_hostname,
-            pop_hostname: config.pop_hostname,
-            smtp_hostname: config.smtp_hostname,
-        },
-    )
+    AutoDiscoverXml {
+        domain: config.domain.to_string(),
+        template: Template::render(
+            "xml/config-v1.1",
+            context! {
+                domain: config.domain,
+                display_name: config.display_name,
+                imap_hostname: config.imap_hostname,
+                pop_hostname: config.pop_hostname,
+                smtp_hostname: config.smtp_hostname,
+            },
+        ),
+    }
 }
 
 // Used by Thunderbird (tested with: Thunderbird 91.10.0)
 // Used by FairEmail (tested with: Thunderbird 1.1917) (https://github.com/M66B/FairEmail/blob/1.1917/app/src/main/java/eu/faircode/email/EmailProvider.java#L558)
 #[get("/mail/config-v1.1.xml?<emailaddress>")]
 #[allow(unused_variables)]
-pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> Template {
+pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> AutoDiscoverXml {
     handle_mail_config_v11(host)
 }
 
 #[get("/.well-known/autoconfig/mail/config-v1.1.xml?<emailaddress>")]
 #[allow(unused_variables)]
-pub fn well_known_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> Template {
+pub fn well_known_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> AutoDiscoverXml {
     handle_mail_config_v11(host)
 }
 
@@ -106,49 +110,52 @@ pub fn post_mail_autodiscover_microsoft_json(
     }
 }
 
-fn autodiscover_microsoft(host: HostHeader) -> Template {
+fn autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
     let config: Config = get_config_for_domain(host.0);
-    Template::render(
-        "xml/autodiscover",
-        context! {
-            domain: config.domain,
-            display_name: config.display_name,
-            imap_hostname: config.imap_hostname,
-            pop_hostname: config.pop_hostname,
-            smtp_hostname: config.smtp_hostname,
-        },
-    )
+    AutoDiscoverXml {
+        domain: config.domain.to_string(),
+        template: Template::render(
+            "xml/autodiscover",
+            context! {
+                domain: config.domain,
+                display_name: config.display_name,
+                imap_hostname: config.imap_hostname,
+                pop_hostname: config.pop_hostname,
+                smtp_hostname: config.smtp_hostname,
+            },
+        ),
+    }
 }
 
 #[get("/autodiscover/autodiscover.xml")]
-pub fn mail_autodiscover_microsoft(host: HostHeader) -> Template {
+pub fn mail_autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
 }
 
 #[get("/Autodiscover/Autodiscover.xml")]
-pub fn mail_autodiscover_microsoft_case(host: HostHeader) -> Template {
+pub fn mail_autodiscover_microsoft_case(host: HostHeader) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
 }
 
 #[get("/AutoDiscover/AutoDiscover.xml")]
-pub fn mail_autodiscover_microsoft_camel_case(host: HostHeader) -> Template {
+pub fn mail_autodiscover_microsoft_camel_case(host: HostHeader) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
 }
 
 // Used by Thunderbird (tested version: 91.10.0)
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
 #[post("/autodiscover/autodiscover.xml")]
-pub fn post_mail_autodiscover_microsoft(host: HostHeader) -> Template {
+pub fn post_mail_autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
 }
 
 #[post("/Autodiscover/Autodiscover.xml")]
-pub fn post_mail_autodiscover_microsoft_case(host: HostHeader) -> Template {
+pub fn post_mail_autodiscover_microsoft_case(host: HostHeader) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
 }
 
 #[post("/AutoDiscover/AutoDiscover.xml")]
-pub fn post_mail_autodiscover_microsoft_camel_case(host: HostHeader) -> Template {
+pub fn post_mail_autodiscover_microsoft_camel_case(host: HostHeader) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
 }
 
