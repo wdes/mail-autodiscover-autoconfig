@@ -40,8 +40,10 @@ fn get_config_for_domain(domain: &str) -> Config {
     }
 }
 
-#[get("/mail/config-v1.1.xml")]
-pub fn mail_config_v11(host: HostHeader) -> Template {
+// Used by Thunderbird (tested with: Thunderbird 91.10.0)
+#[get("/mail/config-v1.1.xml?<emailaddress>")]
+#[allow(unused_variables)]
+pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> Template {
     let config: Config = get_config_for_domain(host.0);
     Template::render(
         "xml/config-v1.1",
@@ -84,6 +86,7 @@ pub fn mail_autodiscover_microsoft_camel_case(host: HostHeader) -> Template {
     autodiscover_microsoft(host)
 }
 
+// Used by Thunderbird (tested with: Thunderbird 91.10.0)
 #[post("/autodiscover/autodiscover.xml")]
 pub fn post_mail_autodiscover_microsoft(host: HostHeader) -> Template {
     autodiscover_microsoft(host)
