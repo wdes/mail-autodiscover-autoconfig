@@ -3,8 +3,13 @@
 ## Support
 
 - Thunderbird
-- Microsoft
-- Apple (kind of)
+- Microsoft Outlook
+- Apple
+
+## Inspiration
+
+- [mailcow's autodiscover-json.php](https://github.com/mailcow/mailcow-dockerized/blob/master/data/web/autodiscover-json.php)
+- [Monogramm's autodiscover-email-settings Node project](https://github.com/Monogramm/autodiscover-email-settings)
 
 ## Use it
 
