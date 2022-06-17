@@ -10,6 +10,7 @@ FROM alpine:3.16 as runtime
 
 ARG VCS_REF
 ARG BUILD_DATE
+ARG VERSION
 
 # Metadata
 LABEL org.label-schema.vendor="mail-autodiscover-autoconfig" \
