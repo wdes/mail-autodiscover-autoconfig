@@ -8,7 +8,7 @@ pub fn index(host: HostHeader) -> Template {
     Template::render(
         "index",
         context! {
-            name: host.0
+            name: host.base_domain
         },
     )
 }

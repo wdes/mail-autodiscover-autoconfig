@@ -19,12 +19,7 @@ fn get_config_for_domain(domain: &str) -> Config {
         .expect("CUSTOM_DOMAINS must be set")
         .split(',')
         .collect::<Vec<&str>>()
-        .contains(
-            &domain
-                .replace("autoconfig.", "")
-                .replace("autodiscover.", "")
-                .as_str(),
-        );
+        .contains(&domain);
 
     if is_custom_host {
         return Config {
@@ -50,7 +45,7 @@ fn get_config_for_domain(domain: &str) -> Config {
 }
 
 fn handle_mail_config_v11(host: HostHeader) -> AutoDiscoverXml {
-    let config: Config = get_config_for_domain(host.0);
+    let config: Config = get_config_for_domain(&host.base_domain);
     AutoDiscoverXml {
         domain: config.domain.to_string(),
         template: Template::render(
@@ -94,12 +89,12 @@ pub fn post_mail_autodiscover_microsoft_json(
     match Protocol {
         Some("AutodiscoverV1") => Ok(Json(AutoDiscoverJson {
             Protocol: "AutodiscoverV1".to_string(),
-            Url: "https://".to_owned() + host.0 + "/Autodiscover/Autodiscover.xml",
+            Url: "https://".to_owned() + &host.base_domain + "/Autodiscover/Autodiscover.xml",
         })),
         /*
         Some("ActiveSync") => Some(AutoDiscoverJson {
             Protocol: "ActiveSync".to_string(),
-            Url: "https://".to_owned() + host.0 + "/Microsoft-Server-ActiveSync",
+            Url: "https://".to_owned() + &host.base_domain + "/Microsoft-Server-ActiveSync",
         }),*/
         _ => Err(AutoDiscoverJsonError {
             ErrorCode: "InvalidProtocol".to_string(),
@@ -111,7 +106,7 @@ pub fn post_mail_autodiscover_microsoft_json(
 }
 
 fn autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
-    let config: Config = get_config_for_domain(host.0);
+    let config: Config = get_config_for_domain(&host.base_domain);
     AutoDiscoverXml {
         domain: config.domain.to_string(),
         template: Template::render(
@@ -162,7 +157,7 @@ pub fn post_mail_autodiscover_microsoft_camel_case(host: HostHeader) -> AutoDisc
 // iOS / Apple Mail (/email.mobileconfig?email=username@domain.com or /email.mobileconfig?email=username)
 #[get("/email.mobileconfig?<email>")]
 pub fn mail_autodiscover_microsoft_apple(host: HostHeader, email: &str) -> AppleResponse {
-    let config: Config = get_config_for_domain(host.0);
+    let config: Config = get_config_for_domain(&host.base_domain);
     let mail_uuid: String = env::var("APPLE_MAIL_UUID").expect("APPLE_MAIL_UUID must be set");
     let profile_uuid: String =
         env::var("APPLE_PROFILE_UUID").expect("APPLE_PROFILE_UUID must be set");
