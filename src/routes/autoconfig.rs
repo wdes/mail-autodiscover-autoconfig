@@ -55,8 +55,7 @@ pub fn mail_config_v11(host: HostHeader) -> Template {
     )
 }
 
-#[get("/autodiscover/autodiscover.xml")]
-pub fn mail_autodiscover_microsoft(host: HostHeader) -> Template {
+fn autodiscover_microsoft(host: HostHeader) -> Template {
     let config: Config = get_config_for_domain(host.0);
     Template::render(
         "xml/autodiscover",
@@ -68,36 +67,36 @@ pub fn mail_autodiscover_microsoft(host: HostHeader) -> Template {
             smtp_hostname: config.smtp_hostname,
         },
     )
+}
+
+#[get("/autodiscover/autodiscover.xml")]
+pub fn mail_autodiscover_microsoft(host: HostHeader) -> Template {
+    autodiscover_microsoft(host)
 }
 
 #[get("/Autodiscover/Autodiscover.xml")]
 pub fn mail_autodiscover_microsoft_case(host: HostHeader) -> Template {
-    let config: Config = get_config_for_domain(host.0);
-    Template::render(
-        "xml/autodiscover",
-        context! {
-            domain: config.domain,
-            display_name: config.display_name,
-            imap_hostname: config.imap_hostname,
-            pop_hostname: config.pop_hostname,
-            smtp_hostname: config.smtp_hostname,
-        },
-    )
+    autodiscover_microsoft(host)
 }
 
 #[get("/AutoDiscover/AutoDiscover.xml")]
 pub fn mail_autodiscover_microsoft_camel_case(host: HostHeader) -> Template {
-    let config: Config = get_config_for_domain(host.0);
-    Template::render(
-        "xml/autodiscover",
-        context! {
-            domain: config.domain,
-            display_name: config.display_name,
-            imap_hostname: config.imap_hostname,
-            pop_hostname: config.pop_hostname,
-            smtp_hostname: config.smtp_hostname,
-        },
-    )
+    autodiscover_microsoft(host)
+}
+
+#[post("/autodiscover/autodiscover.xml")]
+pub fn post_mail_autodiscover_microsoft(host: HostHeader) -> Template {
+    autodiscover_microsoft(host)
+}
+
+#[post("/Autodiscover/Autodiscover.xml")]
+pub fn post_mail_autodiscover_microsoft_case(host: HostHeader) -> Template {
+    autodiscover_microsoft(host)
+}
+
+#[post("/AutoDiscover/AutoDiscover.xml")]
+pub fn post_mail_autodiscover_microsoft_camel_case(host: HostHeader) -> Template {
+    autodiscover_microsoft(host)
 }
 
 // iOS / Apple Mail (/email.mobileconfig?email=username@domain.com or /email.mobileconfig?email=username)

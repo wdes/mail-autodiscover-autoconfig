@@ -21,7 +21,9 @@ fn rocket() -> _ {
     );
     dotenv().ok();
 
-    rocket::build().attach(Template::fairing()).mount(
+    let figment = rocket::Config::figment().merge(("ident", "Wdes Mail AutoDiscover-AutoConfig"));
+
+    rocket::custom(figment).attach(Template::fairing()).mount(
         "/",
         routes![
             routes::tech::index,
@@ -31,6 +33,9 @@ fn rocket() -> _ {
             routes::autoconfig::mail_autodiscover_microsoft,
             routes::autoconfig::mail_autodiscover_microsoft_case,
             routes::autoconfig::mail_autodiscover_microsoft_camel_case,
+            routes::autoconfig::post_mail_autodiscover_microsoft,
+            routes::autoconfig::post_mail_autodiscover_microsoft_case,
+            routes::autoconfig::post_mail_autodiscover_microsoft_camel_case,
             routes::autoconfig::mail_autodiscover_microsoft_apple,
         ],
     )
