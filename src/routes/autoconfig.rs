@@ -1,4 +1,6 @@
 use crate::host_header::HostHeader;
+use crate::ressources::AutoDiscoverJson::AutoDiscoverJson;
+use rocket::serde::json::Json;
 use rocket_dyn_templates::{context, Template};
 use std::env;
 
@@ -40,6 +42,7 @@ fn get_config_for_domain(domain: &str) -> Config {
     }
 }
 
+// TODO: add /.well-known/autoconfig/mail/config-v1.1.xml
 // Used by Thunderbird (tested with: Thunderbird 91.10.0)
 #[get("/mail/config-v1.1.xml?<emailaddress>")]
 #[allow(unused_variables)]
@@ -55,6 +58,33 @@ pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> Template
             smtp_hostname: config.smtp_hostname,
         },
     )
+}
+
+// Used by Microsoft Outlook for Android (tested version: 4.2220.1)
+// Example: /autodiscover/autodiscover.json?Email=test%40wdes.fr&Protocol=ActiveSync&RedirectCount=1
+#[get("/autodiscover/autodiscover.json?<Email>&<Protocol>&<RedirectCount>")]
+#[allow(unused_variables)]
+#[allow(non_snake_case)]
+pub fn post_mail_autodiscover_microsoft_json(
+    host: HostHeader,
+    Email: Option<&str>,
+    Protocol: Option<&str>,
+    RedirectCount: Option<&str>,
+) -> Json<Option<AutoDiscoverJson>> {
+    // TODO: else respond this
+    // {"ErrorCode":"InvalidProtocol","ErrorMessage":"The given protocol value \u0027' . preg_replace("/[^\da-z]/i", '', $_GET['Protocol']) . '\u0027 is invalid. Supported values are \u0027ActiveSync,AutodiscoverV1\u0027"}
+    Json(match Protocol {
+        None => None,
+        Some("AutodiscoverV1") => Some(AutoDiscoverJson {
+            Protocol: "AutodiscoverV1".to_string(),
+            Url: "https://".to_owned() + host.0 + "/Autodiscover/Autodiscover.xml",
+        }),
+        Some("ActiveSync") => Some(AutoDiscoverJson {
+            Protocol: "ActiveSync".to_string(),
+            Url: "https://".to_owned() + host.0 + "/Microsoft-Server-ActiveSync",
+        }),
+        Some(&_) => None,
+    })
 }
 
 fn autodiscover_microsoft(host: HostHeader) -> Template {
@@ -86,7 +116,8 @@ pub fn mail_autodiscover_microsoft_camel_case(host: HostHeader) -> Template {
     autodiscover_microsoft(host)
 }
 
-// Used by Thunderbird (tested with: Thunderbird 91.10.0)
+// Used by Thunderbird (tested version: 91.10.0)
+// Used by Microsoft Outlook for Android (tested version: 4.2220.1)
 #[post("/autodiscover/autodiscover.xml")]
 pub fn post_mail_autodiscover_microsoft(host: HostHeader) -> Template {
     autodiscover_microsoft(host)

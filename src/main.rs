@@ -37,6 +37,7 @@ fn rocket() -> _ {
             routes::autoconfig::post_mail_autodiscover_microsoft_case,
             routes::autoconfig::post_mail_autodiscover_microsoft_camel_case,
             routes::autoconfig::mail_autodiscover_microsoft_apple,
+            routes::autoconfig::post_mail_autodiscover_microsoft_json,
         ],
     )
 }
