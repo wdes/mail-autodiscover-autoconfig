@@ -17,7 +17,12 @@ fn get_config_for_domain(domain: &str) -> Config {
         .expect("CUSTOM_DOMAINS must be set")
         .split(',')
         .collect::<Vec<&str>>()
-        .contains(&domain);
+        .contains(
+            &domain
+                .replace("autoconfig.", "")
+                .replace("autodiscover.", "")
+                .as_str(),
+        );
 
     if is_custom_host {
         return Config {
