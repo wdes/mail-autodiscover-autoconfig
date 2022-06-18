@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006"
-    xmlns:mstns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006" targetNamespace="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" id="requestschema2006">
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns=
+     "http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006" targetNamespace=
+     "http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006" elementFormDefault="qualified" attributeFormDefault="unqualified">
     <xs:element name="Autodiscover">
         <xs:complexType>
             <xs:sequence>
