@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns=
+    "http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" targetNamespace=
+    "http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xs:element name="Response">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Account">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- added manually -->
+                            <xs:element name="AccountType" type="xs:string" minOccurs="0" />
+                            <!-- added manually -->
+                            <xs:element name="Action" type="xs:string" minOccurs="0" />
+                            <!-- set min=0 manually -->
+                            <xs:element name="RedirectAddr" type="xs:string" minOccurs="0" />
+                            <xs:element name="RedirectUrl" type="xs:string" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

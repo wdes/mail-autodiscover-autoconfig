@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns=
+    "http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" targetNamespace=
+    "http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xs:element name="Response">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="User">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="DisplayName" type="xs:string" />
+                            <xs:element name="LegacyDN" type="xs:string" minOccurs="0" />
+                            <xs:element name="AutoDiscoverSMTPAddress" type="xs:string" minOccurs="0" />
+                            <xs:element name="DeploymentId" type="xs:string" minOccurs="0" />
+                            <xs:element name="DefaultABView" type="xs:string" minOccurs="0" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Account">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="AccountType" type="xs:string" />
+                            <xs:element name="Action" type="xs:string" />
+                            <xs:element name="MicrosoftOnline" type="xs:string" minOccurs="0" />
+                            <xs:element maxOccurs="unbounded" name="Protocol">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Type" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="MailStore" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:all minOccurs="1">
+                                                    <xs:element name="InternalUrl" type="xs:string" minOccurs="0"/>
+                                                    <xs:element name="ExternalUrl" type="xs:string" minOccurs="0"/>
+                                                </xs:all>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="AddressBook" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:all minOccurs="1">
+                                                    <xs:element name="InternalUrl" type="xs:string" minOccurs="0"/>
+                                                    <xs:element name="ExternalUrl" type="xs:string" minOccurs="0"/>
+                                                </xs:all>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element minOccurs="0" name="Internal">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="OWAUrl">
+                                                        <xs:complexType>
+                                                            <xs:simpleContent>
+                                                                <xs:extension base="xs:string">
+                                                                    <xs:attribute name="AuthenticationMethod" type="xs:string" use="required" />
+                                                                </xs:extension>
+                                                            </xs:simpleContent>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element name="Protocol">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="Type" type="xs:string" />
+                                                                <xs:element name="ASUrl" type="xs:string" />
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element minOccurs="0" name="External">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="OWAUrl">
+                                                        <xs:complexType>
+                                                            <xs:simpleContent>
+                                                                <xs:extension base="xs:string">
+                                                                    <xs:attribute name="AuthenticationMethod" type="xs:string" use="required" />
+                                                                </xs:extension>
+                                                            </xs:simpleContent>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element name="Protocol">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element name="Type" type="xs:string" />
+                                                                <xs:element name="ASUrl" type="xs:string" />
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element minOccurs="0" name="Server" type="xs:string" />
+                                        <xs:element minOccurs="0" name="SSL" type="xs:string" />
+                                        <xs:element minOccurs="0" name="ServerDN" type="xs:string" />
+                                        <xs:element minOccurs="0" name="ServerVersion" type="xs:string" />
+                                        <xs:element minOccurs="0" name="MdbDN" type="xs:string" />
+                                        <xs:element minOccurs="0" name="PublicFolderServer" type="xs:string" />
+                                        <xs:element minOccurs="0" name="AuthPackage" type="xs:string" />
+                                        <xs:element minOccurs="0" name="AD" type="xs:string" />
+                                        <xs:element minOccurs="0" name="ASUrl" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EwsUrl" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EmwsUrl" type="xs:string" />
+                                        <xs:element minOccurs="0" name="SharingUrl" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-um" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-aggr" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-mt" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-ret" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-sms" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-photo" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-connect" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-tm" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-tmCreating" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-tmEditing" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-tmHiding" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-publish" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EcpUrl-extinstall" type="xs:string" />
+                                        <xs:element minOccurs="0" name="OOFUrl" type="xs:string" />
+                                        <xs:element minOccurs="0" name="UMUrl" type="xs:string" />
+                                        <xs:element minOccurs="0" name="OABUrl" type="xs:string" />
+                                        <xs:element minOccurs="0" name="ServerExclusiveConnect" type="xs:string" />
+                                        <xs:element minOccurs="0" name="CertPrincipalName" type="xs:string" />
+                                        <xs:element minOccurs="0" name="SiteMailboxCreationURL" type="xs:string" />
+                                        <xs:element minOccurs="0" name="EwsPartnerUrl" type="xs:string" />
+                                        <xs:element minOccurs="0" name="GroupingInformation" type="xs:string" />
+                                    </xs:sequence>
+                                    <xs:attribute name="Type" type="xs:string" />
+                                    <xs:attribute name="Version" type="xs:integer" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="AlternativeMailbox">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Type" type="xs:string" />
+                                        <xs:element name="DisplayName" type="xs:string" />
+                                        <xs:element name="LegacyDN" type="xs:string" />
+                                        <xs:element name="Server" type="xs:string" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="PublicFolderInformation">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="SmtpAddress" type="xs:string" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
