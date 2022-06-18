@@ -2,6 +2,9 @@ name: Validate XML files
 
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
     Validate:
         runs-on: ubuntu-latest
