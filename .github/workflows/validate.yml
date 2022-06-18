@@ -1,0 +1,12 @@
+name: Validate XML files
+
+on: [push]
+
+jobs:
+    Validate:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            - name: Check
+              run: make validate
