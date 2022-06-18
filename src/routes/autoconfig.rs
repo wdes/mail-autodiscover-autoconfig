@@ -69,6 +69,13 @@ pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> AutoDisc
     handle_mail_config_v11(host)
 }
 
+// Used by Android Nine (tested with: 4.9.4b) (com.ninefolders.hd3)
+#[get("/v1.1/mail/config-v1.1.xml?<emailaddress>")]
+#[allow(unused_variables)]
+pub fn v11_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> AutoDiscoverXml {
+    handle_mail_config_v11(host)
+}
+
 #[get("/.well-known/autoconfig/mail/config-v1.1.xml?<emailaddress>")]
 #[allow(unused_variables)]
 pub fn well_known_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> AutoDiscoverXml {
