@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006">
+  <Response xmlns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/responseschema/2006">
+    <Culture>en:en</Culture>
+    <User>
+      <DisplayName>{{ display_name }}</DisplayName>
+      <EMailAddress>{{ email_address }}</EMailAddress>
+    </User>
+    <Action>
+      <Settings>
+        <Server>
+        <Type>MobileSync</Type>
+        <Url>https://example.org/TODOmobilesyncURL</Url>
+        <Name>TODO: Mobile sync name</Name>
+        </Server>
+      </Settings>
+    </Action>
+  </Response>
+</Autodiscover>

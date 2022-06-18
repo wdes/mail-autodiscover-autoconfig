@@ -14,6 +14,10 @@ test:
 test-coverage:
 	@cargo tarpaulin
 
+validate:
+	@xmllint --schema xml/xsd/mobilesync/AutodiscoverRequest.xsd xml/mobilesync/AutodiscoverRequest.xml --noout
+	@xmllint --schema xml/xsd/mobilesync/AutodiscoverResponse.xsd templates/xml/autodiscover-mobilesync.xml.tera --noout
+
 format:
 	@cargo fmt -- --emit files
 

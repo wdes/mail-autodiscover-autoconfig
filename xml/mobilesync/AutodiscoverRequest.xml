@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006">
+    <Request>
+        <EMailAddress>test@example.org</EMailAddress>
+        <AcceptableResponseSchema>http://schemas.microsoft.com/exchange/autodiscover/mobilesync/responseschema/2006</AcceptableResponseSchema>
+    </Request>
+</Autodiscover>

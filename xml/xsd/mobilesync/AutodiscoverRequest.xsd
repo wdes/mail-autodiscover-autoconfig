@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006"
+    xmlns:mstns="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006" targetNamespace="http://schemas.microsoft.com/exchange/autodiscover/mobilesync/requestschema/2006"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" id="requestschema2006">
+    <xs:element name="Autodiscover">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Request" type="RequestType" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="RequestType">
+        <xs:sequence>
+            <xs:sequence>
+                <xs:element name="EMailAddress" type="xs:string" />
+                <xs:element name="AcceptableResponseSchema" type="xs:string" />
+            </xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
