@@ -11,6 +11,9 @@ build-release:
 test:
 	@cargo test
 
+test-coverage:
+	@cargo tarpaulin
+
 format:
 	@cargo fmt -- --emit files
 
