@@ -1,7 +1,10 @@
 use crate::host_header::HostHeader;
 use crate::ressources::AppleResponse::AppleResponse;
 use crate::ressources::AutoDiscoverJson::{AutoDiscoverJson, AutoDiscoverJsonError};
-use crate::ressources::AutoDiscoverXml::{AutoDiscoverXml, AutoDiscoverXmlPayload};
+use crate::ressources::AutoDiscoverXml::{
+    AutoDiscoverXml, AutoDiscoverXmlError, AutoDiscoverXmlPayload,
+};
+use chrono::Local;
 use rocket::serde::json::Json;
 use rocket_dyn_templates::{context, Template};
 use std::env;
@@ -114,20 +117,54 @@ pub fn post_mail_autodiscover_microsoft_json(
     }
 }
 
-fn autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
+fn autodiscover_microsoft(
+    host: HostHeader,
+    payload: Option<AutoDiscoverXmlPayload>,
+) -> Result<AutoDiscoverXml, AutoDiscoverXmlError> {
     let config: Config = get_config_for_domain(&host.base_domain);
-    AutoDiscoverXml {
-        domain: config.domain.to_string(),
-        template: Template::render(
-            "xml/autodiscover",
-            context! {
-                domain: config.domain,
-                display_name: config.display_name,
-                imap_hostname: config.imap_hostname,
-                pop_hostname: config.pop_hostname,
-                smtp_hostname: config.smtp_hostname,
-            },
-        ),
+    match payload {
+        Some(p) => match p.Request.AcceptableResponseSchema.as_str() {
+            "http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" => {
+                Ok(AutoDiscoverXml {
+                    domain: config.domain.to_string(),
+                    template: Template::render(
+                        "xml/autodiscover",
+                        context! {
+                            domain: config.domain,
+                            display_name: config.display_name,
+                            imap_hostname: config.imap_hostname,
+                            pop_hostname: config.pop_hostname,
+                            smtp_hostname: config.smtp_hostname,
+                        },
+                    ),
+                })
+            }
+            _ => {
+                let date = Local::now();
+                Err(AutoDiscoverXmlError {
+                    template: Template::render(
+                        "xml/autodiscover-error",
+                        context! {
+                            time: date.format("%H:%M:%S").to_string(),
+                            id: date.format("%s").to_string(),
+                        },
+                    ),
+                })
+            }
+        },
+        None => Ok(AutoDiscoverXml {
+            domain: config.domain.to_string(),
+            template: Template::render(
+                "xml/autodiscover",
+                context! {
+                    domain: config.domain,
+                    display_name: config.display_name,
+                    imap_hostname: config.imap_hostname,
+                    pop_hostname: config.pop_hostname,
+                    smtp_hostname: config.smtp_hostname,
+                },
+            ),
+        }),
     }
 }
 
@@ -135,18 +172,24 @@ fn autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
 // Used by Android Spike Email (tested with: 3.5.7.0) (com.pingapp.app)
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
 #[get("/autodiscover/autodiscover.xml")]
-pub fn mail_autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
-    autodiscover_microsoft(host)
+pub fn mail_autodiscover_microsoft(
+    host: HostHeader,
+) -> Result<AutoDiscoverXml, AutoDiscoverXmlError> {
+    autodiscover_microsoft(host, None)
 }
 
 #[get("/Autodiscover/Autodiscover.xml")]
-pub fn mail_autodiscover_microsoft_case(host: HostHeader) -> AutoDiscoverXml {
-    autodiscover_microsoft(host)
+pub fn mail_autodiscover_microsoft_case(
+    host: HostHeader,
+) -> Result<AutoDiscoverXml, AutoDiscoverXmlError> {
+    autodiscover_microsoft(host, None)
 }
 
 #[get("/AutoDiscover/AutoDiscover.xml")]
-pub fn mail_autodiscover_microsoft_camel_case(host: HostHeader) -> AutoDiscoverXml {
-    autodiscover_microsoft(host)
+pub fn mail_autodiscover_microsoft_camel_case(
+    host: HostHeader,
+) -> Result<AutoDiscoverXml, AutoDiscoverXmlError> {
+    autodiscover_microsoft(host, None)
 }
 
 // Used by Thunderbird (tested version: 91.10.0)
@@ -155,24 +198,24 @@ pub fn mail_autodiscover_microsoft_camel_case(host: HostHeader) -> AutoDiscoverX
 pub fn post_mail_autodiscover_microsoft(
     host: HostHeader,
     payload: AutoDiscoverXmlPayload,
-) -> AutoDiscoverXml {
-    autodiscover_microsoft(host)
+) -> Result<AutoDiscoverXml, AutoDiscoverXmlError> {
+    autodiscover_microsoft(host, Some(payload))
 }
 
 #[post("/Autodiscover/Autodiscover.xml", data = "<payload>")]
 pub fn post_mail_autodiscover_microsoft_case(
     host: HostHeader,
     payload: AutoDiscoverXmlPayload,
-) -> AutoDiscoverXml {
-    autodiscover_microsoft(host)
+) -> Result<AutoDiscoverXml, AutoDiscoverXmlError> {
+    autodiscover_microsoft(host, Some(payload))
 }
 
 #[post("/AutoDiscover/AutoDiscover.xml", data = "<payload>")]
 pub fn post_mail_autodiscover_microsoft_camel_case(
     host: HostHeader,
     payload: AutoDiscoverXmlPayload,
-) -> AutoDiscoverXml {
-    autodiscover_microsoft(host)
+) -> Result<AutoDiscoverXml, AutoDiscoverXmlError> {
+    autodiscover_microsoft(host, Some(payload))
 }
 
 // iOS / Apple Mail (/email.mobileconfig?email=username@domain.com or /email.mobileconfig?email=username)

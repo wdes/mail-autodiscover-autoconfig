@@ -1,6 +1,6 @@
 use rocket::data::ByteUnit;
 use rocket::data::{self, Capped, Data, FromData};
-use rocket::http::Status;
+use rocket::http::{ContentType, Status};
 use rocket::request::Request;
 use rocket::response::{self, Responder, Response};
 use rocket_dyn_templates::Template;
@@ -24,6 +24,19 @@ pub struct AutoDiscoverXmlPayloadRequest {
 #[derive(Deserialize)]
 pub struct AutoDiscoverXmlPayload {
     pub Request: AutoDiscoverXmlPayloadRequest,
+}
+
+pub struct AutoDiscoverXmlError {
+    pub template: Template,
+}
+
+impl<'r, 'o: 'r> Responder<'r, 'o> for AutoDiscoverXmlError {
+    fn respond_to(self, req: &'r Request<'_>) -> response::Result<'o> {
+        Response::build_from(self.template.respond_to(req)?)
+            .header(ContentType::XML)
+            .status(Status::UnprocessableEntity)
+            .ok()
+    }
 }
 
 #[rocket::async_trait]

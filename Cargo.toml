@@ -20,6 +20,8 @@ serde = "1.0.126"
 serde_derive = "1.0.126"
 serde-xml-rs = "0.5.1"
 
+chrono = "0.4.19"
+
 [dependencies.tera]
 version = "1"
 default-features = false

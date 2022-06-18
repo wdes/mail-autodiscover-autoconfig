@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006">
+    <Response>
+        <Error Time="16:56:32.6164027" Id="1054084152">
+            <ErrorCode>601</ErrorCode>
+            <Message>The AcceptableResponseSchema is not supported</Message>
+            <DebugData />
+        </Error>
+    </Response>
+</Autodiscover>

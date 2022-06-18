@@ -20,9 +20,10 @@ validate:
 
 	@xmllint --noout --schema xml/xsd/autodiscover/AutodiscoverRequest.xsd xml/autodiscover/AutodiscoverRequest.xml
 	@xmllint --noout --schema xml/xsd/autodiscover/AutodiscoverResponse.xsd xml/autodiscover/AutodiscoverExchangeResponse.xml
-	@xmllint --noout --schema xml/xsd/autodiscover/AutodiscoverExchangeResponseRedirect.xsd xml/autodiscover/AutodiscoverResponseRedirect.xml
 	@xmllint --noout --schema xml/xsd/autodiscover/AutodiscoverResponse.xsd xml/autodiscover/AutodiscoverResponse.xml
 	@xmllint --noout --schema xml/xsd/autodiscover/AutodiscoverResponse.xsd templates/xml/autodiscover.xml.tera
+	@xmllint --noout --schema xml/xsd/autodiscover/AutodiscoverExchangeResponseRedirect.xsd xml/autodiscover/AutodiscoverResponseRedirect.xml
+	@xmllint --noout --schema xml/xsd/autodiscover/AutodiscoverResponseError.xsd xml/autodiscover/AutodiscoverResponseError.xml
 
 format:
 	@cargo fmt -- --emit files
