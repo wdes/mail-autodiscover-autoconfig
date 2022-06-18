@@ -65,15 +65,16 @@ fn handle_mail_config_v11(host: HostHeader) -> AutoDiscoverXml {
     }
 }
 
-// Used by Thunderbird (tested with: Thunderbird 91.10.0)
-// Used by FairEmail (tested with: Thunderbird 1.1917) (https://github.com/M66B/FairEmail/blob/1.1917/app/src/main/java/eu/faircode/email/EmailProvider.java#L558)
+// Used by Thunderbird (tested version: Thunderbird 91.10.0)
+// Used by FairEmail (tested version: 1.1917) (https://github.com/M66B/FairEmail/blob/1.1917/app/src/main/java/eu/faircode/email/EmailProvider.java#L558)
+// Used by Evolution on Ubuntu (tested version: 3.40.0-1) (/mail/config-v1.1.xml?emailaddress=EVOLUTIONUSER%40wdes.fr&emailmd5=46865a3ba18ca94e2c98f15b8cf14125) (https://gitlab.gnome.org/GNOME/evolution/-/blob/3.40.1/src/mail/e-mail-autoconfig.c#L514)
 #[get("/mail/config-v1.1.xml?<emailaddress>")]
 #[allow(unused_variables)]
 pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> AutoDiscoverXml {
     handle_mail_config_v11(host)
 }
 
-// Used by Android Nine (tested with: 4.9.4b) (com.ninefolders.hd3)
+// Used by Android Nine (tested version: 4.9.4b) (com.ninefolders.hd3)
 #[get("/v1.1/mail/config-v1.1.xml?<emailaddress>")]
 #[allow(unused_variables)]
 pub fn v11_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> AutoDiscoverXml {
@@ -86,7 +87,7 @@ pub fn well_known_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) 
     handle_mail_config_v11(host)
 }
 
-// Used by Android Nine (tested with: 4.9.4b) (com.ninefolders.hd3)
+// Used by Android Nine (tested version: 4.9.4b) (com.ninefolders.hd3)
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
 // Example: /autodiscover/autodiscover.json?Email=test%40wdes.fr&Protocol=ActiveSync&RedirectCount=1
 #[get("/autodiscover/autodiscover.json?<Email>&<Protocol>&<RedirectCount>")]
@@ -168,8 +169,8 @@ fn autodiscover_microsoft(
     }
 }
 
-// Used by Android MyMail (tested with: 14.26.0.37052) (com.my.mail)
-// Used by Android Spike Email (tested with: 3.5.7.0) (com.pingapp.app)
+// Used by Android MyMail (tested version: 14.26.0.37052) (com.my.mail)
+// Used by Android Spike Email (tested version: 3.5.7.0) (com.pingapp.app)
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
 #[get("/autodiscover/autodiscover.xml")]
 pub fn mail_autodiscover_microsoft(
