@@ -3,6 +3,7 @@ FROM rust:1.61.0-alpine3.16 as build-env
 WORKDIR /workspace
 COPY . ./
 RUN apk add --no-cache --update musl-dev openssl-dev
+RUN cargo test --release
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release
 
