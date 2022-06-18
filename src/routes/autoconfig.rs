@@ -1,7 +1,7 @@
 use crate::host_header::HostHeader;
 use crate::ressources::AppleResponse::AppleResponse;
 use crate::ressources::AutoDiscoverJson::{AutoDiscoverJson, AutoDiscoverJsonError};
-use crate::ressources::AutoDiscoverXml::AutoDiscoverXml;
+use crate::ressources::AutoDiscoverXml::{AutoDiscoverXml, AutoDiscoverXmlPayload};
 use rocket::serde::json::Json;
 use rocket_dyn_templates::{context, Template};
 use std::env;
@@ -83,6 +83,7 @@ pub fn well_known_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) 
     handle_mail_config_v11(host)
 }
 
+// Used by Android Nine (tested with: 4.9.4b) (com.ninefolders.hd3)
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
 // Example: /autodiscover/autodiscover.json?Email=test%40wdes.fr&Protocol=ActiveSync&RedirectCount=1
 #[get("/autodiscover/autodiscover.json?<Email>&<Protocol>&<RedirectCount>")]
@@ -130,6 +131,9 @@ fn autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
     }
 }
 
+// Used by Android MyMail (tested with: 14.26.0.37052) (com.my.mail)
+// Used by Android Spike Email (tested with: 3.5.7.0) (com.pingapp.app)
+// Used by Microsoft Outlook for Android (tested version: 4.2220.1)
 #[get("/autodiscover/autodiscover.xml")]
 pub fn mail_autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
@@ -147,18 +151,27 @@ pub fn mail_autodiscover_microsoft_camel_case(host: HostHeader) -> AutoDiscoverX
 
 // Used by Thunderbird (tested version: 91.10.0)
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
-#[post("/autodiscover/autodiscover.xml")]
-pub fn post_mail_autodiscover_microsoft(host: HostHeader) -> AutoDiscoverXml {
+#[post("/autodiscover/autodiscover.xml", data = "<payload>")]
+pub fn post_mail_autodiscover_microsoft(
+    host: HostHeader,
+    payload: AutoDiscoverXmlPayload,
+) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
 }
 
-#[post("/Autodiscover/Autodiscover.xml")]
-pub fn post_mail_autodiscover_microsoft_case(host: HostHeader) -> AutoDiscoverXml {
+#[post("/Autodiscover/Autodiscover.xml", data = "<payload>")]
+pub fn post_mail_autodiscover_microsoft_case(
+    host: HostHeader,
+    payload: AutoDiscoverXmlPayload,
+) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
 }
 
-#[post("/AutoDiscover/AutoDiscover.xml")]
-pub fn post_mail_autodiscover_microsoft_camel_case(host: HostHeader) -> AutoDiscoverXml {
+#[post("/AutoDiscover/AutoDiscover.xml", data = "<payload>")]
+pub fn post_mail_autodiscover_microsoft_camel_case(
+    host: HostHeader,
+    payload: AutoDiscoverXmlPayload,
+) -> AutoDiscoverXml {
     autodiscover_microsoft(host)
 }
 
