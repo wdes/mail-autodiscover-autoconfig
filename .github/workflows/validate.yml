@@ -8,5 +8,7 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
+            - name: Install xmllint
+              run: apt-get -y --no-install-recommends install libxml2-utils
             - name: Check
               run: make validate
