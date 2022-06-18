@@ -91,7 +91,18 @@
                                             </xs:complexType>
                                         </xs:element>
                                         <xs:element minOccurs="0" name="Server" type="xs:string" />
+                                        <!-- added manually -->
+                                        <xs:element minOccurs="0" name="Port" type="xs:integer" />
+                                        <!-- added manually -->
+                                        <xs:element minOccurs="0" name="DomainRequired" type="xs:string" />
+                                        <!-- added manually -->
+                                        <xs:element minOccurs="0" name="DomainName" type="xs:string" />
+                                        <!-- added manually -->
+                                        <xs:element minOccurs="0" name="SPA" type="xs:string" />
+                                        <!-- added manually -->
                                         <xs:element minOccurs="0" name="SSL" type="xs:string" />
+                                        <!-- added manually -->
+                                        <xs:element minOccurs="0" name="AuthRequired" type="xs:string" />
                                         <xs:element minOccurs="0" name="ServerDN" type="xs:string" />
                                         <xs:element minOccurs="0" name="ServerVersion" type="xs:string" />
                                         <xs:element minOccurs="0" name="MdbDN" type="xs:string" />
