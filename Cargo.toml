@@ -26,3 +26,6 @@ default-features = false
 [dependencies.rocket_dyn_templates]
 version = "0.1.0-rc.2"
 features = ["tera"]
+
+[dev-dependencies]
+temp-env = "0.2.0"

@@ -6,6 +6,7 @@ use rocket::serde::json::Json;
 use rocket_dyn_templates::{context, Template};
 use std::env;
 
+#[derive(Eq, PartialEq, Debug)]
 struct Config<'a> {
     domain: &'a str,
     display_name: String,
@@ -186,5 +187,54 @@ pub fn mail_autodiscover_microsoft_apple(host: HostHeader, email: &str) -> Apple
                 profile_uuid: profile_uuid,
             },
         ),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_config_for_domain() {
+        temp_env::with_vars(
+            vec![
+                ("CUSTOM_DOMAINS", Some("foo.tld")),
+                ("IMAP_HOSTNAME", Some("imap.foo.tld")),
+                ("POP_HOSTNAME", Some("pop.example.tld")),
+                ("SMTP_HOSTNAME", Some("smtp.domain.tld")),
+            ],
+            || {
+                assert_eq!(
+                    Config {
+                        domain: "foo.tld",
+                        display_name: "foo.tld Mail".to_string(),
+                        imap_hostname: "imap.foo.tld".to_string(),
+                        pop_hostname: "pop.foo.tld".to_string(),
+                        smtp_hostname: "smtp.foo.tld".to_string(),
+                    },
+                    get_config_for_domain("foo.tld")
+                );
+            },
+        );
+        temp_env::with_vars(
+            vec![
+                ("CUSTOM_DOMAINS", Some("foo.bar")),
+                ("IMAP_HOSTNAME", Some("imap.custom.tld")),
+                ("POP_HOSTNAME", Some("pop.example.tld")),
+                ("SMTP_HOSTNAME", Some("smtp.domain.tld")),
+            ],
+            || {
+                assert_eq!(
+                    Config {
+                        domain: "foo.tld",
+                        display_name: "foo.tld Mail".to_string(),
+                        imap_hostname: "imap.custom.tld".to_string(),
+                        pop_hostname: "pop.example.tld".to_string(),
+                        smtp_hostname: "smtp.domain.tld".to_string(),
+                    },
+                    get_config_for_domain("foo.tld")
+                );
+            },
+        );
     }
 }
