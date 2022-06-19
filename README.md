@@ -20,6 +20,7 @@
 - [Thunderbird](https://www.thunderbird.net/) (tested version: 91.10.0)
 - [Android Nine](https://www.9folders.com/en/index.html) (tested version: [4.9.4b](https://play.google.com/store/apps/details?id=com.ninefolders.hd3))
 - [Evolution on Ubuntu](https://wiki.gnome.org/Apps/Evolution/) (tested version: [3.40.0](https://gitlab.gnome.org/GNOME/evolution/-/tree/3.40.0/))
+- [Spark Mail on Android](https://sparkmailapp.com/) (tested version: 2.11.8)
 
 ## Use it
 
