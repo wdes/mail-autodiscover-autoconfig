@@ -34,7 +34,7 @@ impl<'r, 'o: 'r> Responder<'r, 'o> for AutoDiscoverXmlError {
     fn respond_to(self, req: &'r Request<'_>) -> response::Result<'o> {
         Response::build_from(self.template.respond_to(req)?)
             .header(ContentType::XML)
-            .status(Status::UnprocessableEntity)
+            .status(Status::Ok)// Yes, I did curl microsoft and it sends 200 as a response code
             .ok()
     }
 }
