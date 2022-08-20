@@ -13,6 +13,8 @@
                 <Type>IMAP</Type>
                 <Server>{{ imap_hostname }}</Server>
                 <Port>993</Port>
+                <DomainRequired>on</DomainRequired>
+                <DomainName>{{ domain }}</DomainName>
                 <SPA>off</SPA>
                 <SSL>on</SSL>
                 <AuthRequired>on</AuthRequired>
@@ -22,6 +24,8 @@
                 <Type>POP3</Type>
                 <Server>{{ pop_hostname }}</Server>
                 <Port>995</Port>
+                <DomainRequired>on</DomainRequired>
+                <DomainName>{{ domain }}</DomainName>
                 <SPA>off</SPA>
                 <SSL>on</SSL>
                 <AuthRequired>on</AuthRequired>
@@ -31,6 +35,8 @@
                 <Type>SMTP</Type>
                 <Server>{{ smtp_hostname }}</Server>
                 <Port>465</Port>
+                <DomainRequired>on</DomainRequired>
+                <DomainName>{{ domain }}</DomainName>
                 <SPA>off</SPA>
                 <SSL>on</SSL>
                 <AuthRequired>on</AuthRequired>
