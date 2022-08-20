@@ -108,6 +108,10 @@ pub fn post_mail_autodiscover_microsoft_json(
             Protocol: "AutodiscoverV1".to_string(),
             Url: "https://".to_owned() + &host.base_domain + "/Autodiscover/Autodiscover.xml",
         })),
+        Some("Autodiscoverv1") => Ok(Json(AutoDiscoverJson {
+            Protocol: "Autodiscoverv1".to_string(),
+            Url: "https://".to_owned() + &host.base_domain + "/Autodiscover/Autodiscover.xml",
+        })),
         /*
         Some("ActiveSync") => Some(AutoDiscoverJson {
             Protocol: "ActiveSync".to_string(),
@@ -116,7 +120,7 @@ pub fn post_mail_autodiscover_microsoft_json(
         _ => Err(AutoDiscoverJsonError {
             ErrorCode: "InvalidProtocol".to_string(),
             ErrorMessage:
-                "The given protocol value is invalid. Supported values are \"AutodiscoverV1\"."
+                "The given protocol value is invalid. Supported values are \"AutodiscoverV1\" or "Autodiscoverv1"."
                     .to_string(),
         }),
     }
