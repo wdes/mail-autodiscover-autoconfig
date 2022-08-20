@@ -131,6 +131,7 @@ fn autodiscover_microsoft(
     payload: Option<AutoDiscoverXmlPayload>,
 ) -> Result<AutoDiscoverXml, AutoDiscoverXmlError> {
     let config: Config = get_config_for_domain(&host.base_domain);
+    // TODO: http://schemas.microsoft.com/exchange/autodiscover/mobilesync/responseschema/2006
     match payload {
         Some(p) => match p.Request.AcceptableResponseSchema.as_str() {
             "http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" => {
