@@ -90,7 +90,10 @@ pub fn well_known_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) 
 
 // Used by Android Nine (tested version: 4.9.4b) (com.ninefolders.hd3)
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
+// Used by Microsoft Office Pro Plus 2021 (tested version: 14326.20454 64 bits)
+
 // Example: /autodiscover/autodiscover.json?Email=test%40wdes.fr&Protocol=ActiveSync&RedirectCount=1
+// Example: /autodiscover/autodiscover.json?Email=test%40wdes.fr&Protocol=Autodiscoverv1&RedirectCount=1
 #[get("/autodiscover/autodiscover.json?<Email>&<Protocol>&<RedirectCount>")]
 #[allow(unused_variables)]
 #[allow(non_snake_case)]
@@ -173,6 +176,8 @@ fn autodiscover_microsoft(
 // Used by Android MyMail (tested version: 14.26.0.37052) (com.my.mail)
 // Used by Android Spike Email (tested version: 3.5.7.0) (com.pingapp.app)
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
+// Used by Microsoft Office Pro Plus 2013 (tested version: 15.0.5399.1000 64 bits)
+// Used by Microsoft Office Pro Plus 2021 (tested version: 14326.20454 64 bits)
 #[get("/autodiscover/autodiscover.xml")]
 pub fn mail_autodiscover_microsoft(
     host: HostHeader,
@@ -196,6 +201,8 @@ pub fn mail_autodiscover_microsoft_camel_case(
 
 // Used by Thunderbird (tested version: 91.10.0)
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
+// Used by Microsoft Office Pro Plus 2013 (tested version: 15.0.5399.1000 64 bits)
+// Used by Microsoft Office Pro Plus 2021 (tested version: 14326.20454 64 bits)
 #[post("/autodiscover/autodiscover.xml", data = "<payload>")]
 pub fn post_mail_autodiscover_microsoft(
     host: HostHeader,
