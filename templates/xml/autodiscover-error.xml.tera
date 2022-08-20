@@ -3,7 +3,7 @@
     <Response>
         <Error Time="{{ time }}" Id="{{ id }}">
             <ErrorCode>601</ErrorCode>
-            <Message>The AcceptableResponseSchema is not supported</Message>
+            <Message>Provider is not available</Message>
             <DebugData />
         </Error>
     </Response>
