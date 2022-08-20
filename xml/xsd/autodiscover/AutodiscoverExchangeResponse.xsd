@@ -7,7 +7,7 @@
     <xs:element name="Response">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="User">
+                <xs:element name="User" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="DisplayName" type="xs:string" />
