@@ -120,7 +120,7 @@ pub fn post_mail_autodiscover_microsoft_json(
         _ => Err(AutoDiscoverJsonError {
             ErrorCode: "InvalidProtocol".to_string(),
             ErrorMessage:
-                "The given protocol value is invalid. Supported values are \"AutodiscoverV1\" or "Autodiscoverv1"."
+                "The given protocol value is invalid. Supported values are \"AutodiscoverV1\" or \"Autodiscoverv1\"."
                     .to_string(),
         }),
     }
