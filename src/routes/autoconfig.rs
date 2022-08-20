@@ -106,16 +106,16 @@ pub fn post_mail_autodiscover_microsoft_json(
     match Protocol {
         Some("AutodiscoverV1") => Ok(Json(AutoDiscoverJson {
             Protocol: "AutodiscoverV1".to_string(),
-            Url: "https://".to_owned() + &host.base_domain + "/Autodiscover/Autodiscover.xml",
+            Url: "https://".to_owned() + &host.host + "/Autodiscover/Autodiscover.xml",
         })),
         Some("Autodiscoverv1") => Ok(Json(AutoDiscoverJson {
             Protocol: "Autodiscoverv1".to_string(),
-            Url: "https://".to_owned() + &host.base_domain + "/Autodiscover/Autodiscover.xml",
+            Url: "https://".to_owned() + &host.host + "/Autodiscover/Autodiscover.xml",
         })),
         /*
         Some("ActiveSync") => Some(AutoDiscoverJson {
             Protocol: "ActiveSync".to_string(),
-            Url: "https://".to_owned() + &host.base_domain + "/Microsoft-Server-ActiveSync",
+            Url: "https://".to_owned() + &host.host + "/Microsoft-Server-ActiveSync",
         }),*/
         _ => Err(AutoDiscoverJsonError {
             ErrorCode: "InvalidProtocol".to_string(),
