@@ -1,6 +1,6 @@
 [package]
 name = "mail-autodiscover-autoconfig"
-version = "1.4.1"
+version = "1.4.2"
 authors = ["William Desportes <williamdes@wdes.fr>"]
 edition = "2021"
 
