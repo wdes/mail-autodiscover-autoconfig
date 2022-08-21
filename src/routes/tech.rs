@@ -13,6 +13,16 @@ pub fn index(host: HostHeader) -> Template {
     )
 }
 
+#[get("/apple")]
+pub fn apple(host: HostHeader) -> Template {
+    Template::render(
+        "apple",
+        context! {
+            name: host.base_domain
+        },
+    )
+}
+
 #[get("/robots.txt")]
 pub fn robots() -> Template {
     Template::render("static/robots", context! {})

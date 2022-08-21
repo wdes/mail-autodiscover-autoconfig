@@ -61,8 +61,8 @@ services:
 
 ### Install on Apple
 
-- Browse `https://autoconfig.<domain>.<tld>/email.mobileconfig?email=<username>@<domain>.<tld>`
-- The profile downloads itself
+- Browse `https://autoconfig.<domain>.<tld>/apple` or directly `https://autoconfig.<domain>.<tld>/email.mobileconfig?email=<username>@<domain>.<tld>`
+- Fill and submit the form, the profile downloads itself
 - Click on it, it says to go to system settings to enable it
 - Go to system settings, then "Profiles" or "Downloaded Profiles"
 - Click install on the profile, enter your password

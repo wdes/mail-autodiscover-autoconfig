@@ -31,6 +31,7 @@ fn rocket() -> _ {
         "/",
         routes![
             routes::tech::index,
+            routes::tech::apple,
             routes::tech::robots,
             routes::tech::version,
             routes::autoconfig::v11_mail_config_v11,

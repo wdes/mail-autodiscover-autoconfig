@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ name }} email AutoDiscover-AutoConfig">
     <meta name="author" content="William Desportes">
-    <title>{{ name }} email AutoDiscover-AutoConfig</title>
+    <title>{{ name }} email AutoDiscover-AutoConfig | Apple</title>
 
     <link rel="canonical" href="https://datacenters.network">
 
@@ -23,12 +23,22 @@
         </header>
 
         <main class="px-3">
-            <h3>{{ name }} email AutoDiscover-AutoConfig</h3>
+            <h4>Setup for Apple</h4>
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <form method="GET" action="/email.mobileconfig" class="col-3">
+                        <div class="form-group">
+                            <label for="emailAddress">Email address</label>
+                            <input type="email" class="form-control" name="email" id="emailAddress" placeholder="example@{{ name }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Get my profile</button>
+                    </form>
+                </div>
+            </div>
         </main>
 
         <footer class="mt-auto text-white-50">
             <p>Provided by <a href="https://github.com/wdes/mail-autodiscover-autoconfig">Wdes Mail AutoDiscover-AutoConfig</a></p>
-            <p>Apple profile <a href="/apple">setup</a></p>
         </footer>
     </div>
 </body>
