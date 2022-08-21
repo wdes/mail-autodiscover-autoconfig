@@ -65,5 +65,5 @@ services:
 - The profile downloads itself
 - Click on it, it says to go to system settings to enable it
 - Go to system settings, then "Profiles" or "Downloaded Profiles"
-- Click install on the profile
+- Click install on the profile, enter your password
 - You can go back to your Mail app, the email configured
