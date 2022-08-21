@@ -4,7 +4,8 @@
 
 - Thunderbird
 - Microsoft Outlook
-- Apple
+- Apple MacOS
+- Apple iOS
 
 ## Inspiration
 
@@ -16,6 +17,8 @@
 
 ## Tested working apps
 
+- [Apple MacOS Monterey](https://www.apple.com/fr/macos/monterey/) on Apple Mail (MacOS: 12.2, Mail: 15.0 (3693.60.0.1.1))
+- [Apple iOS 15.6.1](https://support.apple.com/en-us/HT213412) (iOS: 15.6.1)
 - [FairEmail](https://github.com/M66B/FairEmail) (tested version: 1.1917)
 - [Thunderbird](https://www.thunderbird.net/) (tested version: 91.10.0)
 - [Android Nine](https://www.9folders.com/en/index.html) (tested version: [4.9.4b](https://play.google.com/store/apps/details?id=com.ninefolders.hd3))
@@ -55,3 +58,12 @@ services:
             POP_HOSTNAME: pop.mails.provider.tld
             SMTP_HOSTNAME: smtp.mails.provider.tld
 ```
+
+### Install on Apple
+
+- Browse `https://autoconfig.<domain>.<tld>/email.mobileconfig?email=<username>@<domain>.<tld>`
+- The profile downloads itself
+- Click on it, it says to go to system settings to enable it
+- Go to system settings, then "Profiles" or "Downloaded Profiles"
+- Click install on the profile
+- You can go back to your Mail app, the email configured
