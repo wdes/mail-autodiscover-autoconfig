@@ -234,7 +234,7 @@ pub fn post_mail_autodiscover_microsoft_camel_case(
 
 // iOS / Apple Mail (/email.mobileconfig?email=username@domain.com or /email.mobileconfig?email=username)
 #[get("/email.mobileconfig?<email>")]
-pub fn mail_autodiscover_microsoft_apple(host: HostHeader, email: &str) -> AppleResponse {
+pub fn mail_autodiscover_apple_mobileconfig(host: HostHeader, email: &str) -> AppleResponse {
     let config: Config = get_config_for_domain(&host.base_domain);
     let mail_uuid: String = env::var("APPLE_MAIL_UUID").expect("APPLE_MAIL_UUID must be set");
     let profile_uuid: String =

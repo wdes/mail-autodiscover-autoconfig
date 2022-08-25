@@ -27,11 +27,10 @@ fn rocket() -> _ {
 
     let figment = rocket::Config::figment().merge(("ident", "Wdes Mail AutoDiscover-AutoConfig"));
 
-    rocket::custom(figment).attach(Template::fairing()).mount(
+    let mut rocket = rocket::custom(figment).attach(Template::fairing()).mount(
         "/",
         routes![
             routes::tech::index,
-            routes::tech::apple,
             routes::tech::robots,
             routes::tech::version,
             routes::autoconfig::v11_mail_config_v11,
@@ -43,8 +42,17 @@ fn rocket() -> _ {
             routes::autoconfig::post_mail_autodiscover_microsoft,
             routes::autoconfig::post_mail_autodiscover_microsoft_case,
             routes::autoconfig::post_mail_autodiscover_microsoft_camel_case,
-            routes::autoconfig::mail_autodiscover_microsoft_apple,
             routes::autoconfig::post_mail_autodiscover_microsoft_json,
         ],
-    )
+    );
+    if cfg!(feature = "apple") {
+        rocket = rocket.mount(
+            "/",
+            routes![
+                routes::autoconfig::mail_autodiscover_apple_mobileconfig,
+                routes::tech::apple,
+            ],
+        );
+    }
+    rocket
 }
