@@ -14,6 +14,7 @@ use std::env;
 pub mod host_header;
 pub mod ressources;
 pub mod routes;
+pub mod util;
 
 #[launch]
 fn rocket() -> _ {
@@ -53,6 +54,9 @@ fn rocket() -> _ {
                 routes::tech::apple,
             ],
         );
+    }
+    if cfg!(feature = "dns") {
+        rocket = rocket.mount("/", routes![routes::dns::dns_txt_zone,]);
     }
     rocket
 }

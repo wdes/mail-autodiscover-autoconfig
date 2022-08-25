@@ -4,8 +4,9 @@ version = "1.5.0"
 authors = ["William Desportes <williamdes@wdes.fr>"]
 edition = "2021"
 [features]
-default = ["apple"]
+default = ["apple", "dns"]
 apple = []
+dns = []
 
 [dependencies]
 # ENV

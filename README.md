@@ -73,3 +73,4 @@ services:
 You can disable some of the default features. For now the default features are:
 
 - `apple` (This feature contains the web UI route and the mobile config route)
+- `dns` (This feature adds a DNS txt route to obtain your ideal DNS config)
