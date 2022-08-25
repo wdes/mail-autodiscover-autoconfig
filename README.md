@@ -67,3 +67,9 @@ services:
 - Go to system settings, then "Profiles" or "Downloaded Profiles"
 - Click install on the profile, enter your password
 - You can go back to your Mail app, the email configured
+
+### Technical compilation aspects
+
+You can disable some of the default features. For now the default features are:
+
+- `apple` (This feature contains the web UI route and the mobile config route)
