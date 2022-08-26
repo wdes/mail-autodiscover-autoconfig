@@ -72,6 +72,8 @@ services:
 - Click install on the profile, enter your password
 - You can go back to your Mail app, the email configured
 
+NB: Is Apple signing implemented: No. Will it be: maybe, if someone/I figures it out ^^
+
 ### Technical compilation aspects
 
 You can disable some of the default features. For now the default features are:
