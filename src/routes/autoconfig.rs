@@ -27,6 +27,7 @@ fn handle_mail_config_v11(host: HostHeader) -> AutoDiscoverXml {
     }
 }
 
+// Used by KMail (tested version: 5.19.3 (21.12.3)) (https://github.com/KDE/kmail-account-wizard/blob/v21.12.3/src/ispdb/ispdb.cpp#L64-L90) (https://invent.kde.org/pim/kmail-account-wizard/-/blob/v21.12.3/src/ispdb/ispdb.cpp#L64-90)
 // Used by Thunderbird (tested version: Thunderbird 91.10.0)
 // Used by FairEmail (tested version: 1.1917) (https://github.com/M66B/FairEmail/blob/1.1917/app/src/main/java/eu/faircode/email/EmailProvider.java#L558)
 // Used by Evolution on Ubuntu (tested version: 3.40.0-1) (/mail/config-v1.1.xml?emailaddress=EVOLUTIONUSER%40wdes.fr&emailmd5=46865a3ba18ca94e2c98f15b8cf14125) (https://gitlab.gnome.org/GNOME/evolution/-/blob/3.40.1/src/mail/e-mail-autoconfig.c#L514)

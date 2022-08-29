@@ -20,6 +20,7 @@
 - [Apple MacOS Monterey](https://www.apple.com/fr/macos/monterey/) on Apple Mail (MacOS: 12.2, Mail: 15.0 (3693.60.0.1.1))
 - [Thunderbird](https://www.thunderbird.net/) (tested version: 91.10.0)
 - [Evolution on Ubuntu](https://wiki.gnome.org/Apps/Evolution/) (tested version: [3.40.0](https://gitlab.gnome.org/GNOME/evolution/-/tree/3.40.0/))
+- [KMail on Ubuntu](https://userbase.kde.org/KMail) (tested version: 5.19.3 (21.12.3))
 - [Microsoft Office Pro Plus 2013](https://wikipedia.org/wiki/Microsoft_Office_2013) (tested version: 15.0.5399.1000 64 bits)
 - <!: [You need to disable Office 365 setup and adjust the config manually](https://github.com/smartlyway/email-autoconfig-php/issues/2)> [Microsoft Office Pro Plus 2021](https://wikipedia.org/wiki/Microsoft_Office_2013) (tested version: 14326.204454 64 bits)
 
