@@ -4,6 +4,7 @@ version = "1.5.0"
 authors = ["William Desportes <williamdes@wdes.fr>"]
 edition = "2021"
 rust-version = "1.63"
+build = "src/build.rs"
 
 [features]
 default = ["apple", "dns"]
@@ -38,3 +39,7 @@ features = ["tera"]
 
 [dev-dependencies]
 temp-env = "0.2.0"
+
+[build-dependencies]
+anyhow = "1.0.63"
+vergen = { version = "7.4.2", default-features = false, features = ["build", "git", "rustc"] }

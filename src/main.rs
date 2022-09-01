@@ -21,6 +21,16 @@ fn rocket() -> _ {
     println!(
         "Wdes Mail AutoDiscover-AutoConfig (https://github.com/wdes/mail-autodiscover-autoconfig)."
     );
+
+    println!(
+        "Version: {} built on Rust: {} at: {} using commit: {} on branch: {}",
+        env!("VERGEN_BUILD_SEMVER"),
+        env!("VERGEN_RUSTC_SEMVER"),
+        env!("VERGEN_BUILD_TIMESTAMP"),
+        env!("VERGEN_GIT_SHA"),
+        env!("VERGEN_GIT_BRANCH"),
+    );
+
     dotenv().ok();
 
     let custom_domains: String = env::var("CUSTOM_DOMAINS").expect("CUSTOM_DOMAINS must be set");
