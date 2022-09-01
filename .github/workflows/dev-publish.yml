@@ -21,6 +21,12 @@ jobs:
               env:
                DOCKER_TAG: edge
                IMAGE_TAG: ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig
+            - name: Login to GitHub Container Registry
+              uses: docker/login-action@v2
+              with:
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
             - name: Push docker image
               run: make push-docker
               env:
