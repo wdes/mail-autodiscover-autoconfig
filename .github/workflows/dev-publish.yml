@@ -1,0 +1,28 @@
+name: Publish Docker image
+
+on: [push]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+    publish-docker-image:
+        environment:
+            name: "github-registry"
+            url: https://github.com/orgs/wdes/packages?repo_name=mail-autodiscover-autoconfig
+        name: Build and test image and publish the image
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            - name: Build docker image
+              run: make build-docker
+              env:
+               DOCKER_TAG: edge
+               IMAGE_TAG: ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig
+            - name: Push docker image
+              run: make push-docker
+              env:
+               DOCKER_TAG: edge
+               IMAGE_TAG: ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig
