@@ -11,18 +11,32 @@ FROM alpine:3.16 as runtime
 
 ARG VCS_REF
 ARG BUILD_DATE
-ARG VERSION
+ARG RELEASE_VERSION
 
 # Metadata
-LABEL org.label-schema.vendor="mail-autodiscover-autoconfig" \
+LABEL org.label-schema.vendor="Wdes" \
     org.label-schema.url="https://github.com/wdes/mail-autodiscover-autoconfig#readme" \
     org.label-schema.name="mail-autodiscover-autoconfig" \
-    org.label-schema.description="mail-autodiscover-autoconfig server" \
-    org.label-schema.version=${VERSION} \
+    org.label-schema.description="A web server for autodiscover and autoconfig" \
+    org.label-schema.version=${RELEASE_VERSION} \
     org.label-schema.vcs-url="https://github.com/wdes/mail-autodiscover-autoconfig.git" \
     org.label-schema.vcs-ref=${VCS_REF} \
     org.label-schema.build-date=${BUILD_DATE} \
-    org.label-schema.docker.schema-version="1.0"
+    org.label-schema.docker.schema-version="1.0" \
+    \
+    com.docker.extension.publisher-url="https://github.com/wdes" \
+    \
+    org.opencontainers.image.title="Docker autodiscover, autoconfig web server" \
+    org.opencontainers.image.authors="williamdes@wdes.fr" \
+    org.opencontainers.image.url="https://github.com/wdes/mail-autodiscover-autoconfig#readme" \
+    org.opencontainers.image.documentation="https://github.com/wdes/mail-autodiscover-autoconfig#readme" \
+    org.opencontainers.image.source="https://github.com/wdes/mail-autodiscover-autoconfig" \
+    org.opencontainers.image.vendor="Wdes" \
+    org.opencontainers.image.licenses="MPL-2.0" \
+    org.opencontainers.image.created=${BUILD_DATE} \
+    org.opencontainers.image.version=${RELEASE_VERSION} \
+    org.opencontainers.image.revision=${VCS_REF} \
+    org.opencontainers.image.ref.name="latest"
 
 # https://github.com/mischov/meeseeks/issues/98#issuecomment-636615680
 RUN apk add --no-cache --update openssl libgcc
