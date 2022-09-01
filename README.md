@@ -14,6 +14,7 @@
 - [Wicloz's EmailAutoConfig templates](https://github.com/Wicloz/EmailAutoConfig/tree/8e02dbd6dca7edfd748802028ba711289a7fe1a5/templates)
 - [Mailu's logic for AcceptableResponseSchema](https://github.com/Mailu/Mailu/blob/c15e4e6015592735fa6f730af72b8332e93ae672/core/admin/mailu/internal/views/autoconfig.py#L55-L91)
 - [hmlkao's php-autodiscover for Apps to test](https://github.com/hmlkao/php-autodiscover#readme)
+- [StephanvanSchaik's automail project written in Rust](https://github.com/StephanvanSchaik/automail)
 
 ## Tested working apps
 
