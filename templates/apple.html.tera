@@ -26,10 +26,10 @@
             <h4>Setup for Apple</h4>
             <div class="container">
                 <div class="row justify-content-md-center">
-                    <form method="GET" action="/email.mobileconfig" class="col-3">
+                    <form method="GET" action="/email.mobileconfig" class="col-sm-12 col-md-6 col-xl-3">
                         <div class="form-group">
                             <label for="emailAddress">Email address</label>
-                            <input type="email" class="form-control" name="email" id="emailAddress" placeholder="example@{{ name }}">
+                            <input type="email" class="form-control" name="email" id="emailAddress" placeholder="example@{{ name }}" autocomplete="email" autofocus>
                         </div>
                         <button type="submit" class="btn btn-primary mt-2">Get my profile</button>
                     </form>
