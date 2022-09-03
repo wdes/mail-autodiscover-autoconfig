@@ -33,7 +33,7 @@ fn rocket() -> _ {
 
     dotenv().ok();
 
-    let custom_domains: String = env::var("CUSTOM_DOMAINS").expect("CUSTOM_DOMAINS must be set");
+    let custom_domains: String = util::get_custom_domains_list();
     println!("Custom domains: {}", custom_domains);
 
     let figment = rocket::Config::figment().merge(("ident", "Wdes Mail AutoDiscover-AutoConfig"));

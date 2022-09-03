@@ -9,9 +9,15 @@ pub struct Config<'a> {
     pub smtp_hostname: String,
 }
 
+pub fn get_custom_domains_list() -> String {
+    match env::var("CUSTOM_DOMAINS") {
+        Ok(custom_domains) => custom_domains,
+        _ => "".to_string(),
+    }
+}
+
 pub fn get_config_for_domain(domain: &str) -> Config {
-    let is_custom_host: bool = env::var("CUSTOM_DOMAINS")
-        .expect("CUSTOM_DOMAINS must be set")
+    let is_custom_host: bool = get_custom_domains_list()
         .split(',')
         .collect::<Vec<&str>>()
         .contains(&domain);

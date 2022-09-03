@@ -58,8 +58,8 @@ services:
             # Re-generate the two UUIDs below
             APPLE_MAIL_UUID: ff83a13b-c4e6-41c5-bf54-0a244bb3bf5d
             APPLE_PROFILE_UUID: b8e39daa-64a3-4928-bb86-cb4b551fdd57
-            # List of domains that will use {imap,pop,smtp}.domain.tld instead of the hosts below
-            CUSTOM_DOMAINS: foo.tld
+            # CUSTOM_DOMAINS: foo.tld
+            # (optional: CUSTOM_DOMAINS) List of domains that will use {imap,pop,smtp}.domain.tld instead of the hosts below
             IMAP_HOSTNAME: imap.mails.provider.tld
             POP_HOSTNAME: pop.mails.provider.tld
             SMTP_HOSTNAME: smtp.mails.provider.tld

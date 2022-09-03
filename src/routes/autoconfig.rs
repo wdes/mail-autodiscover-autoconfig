@@ -270,5 +270,24 @@ mod tests {
                 );
             },
         );
+        temp_env::with_vars(
+            vec![
+                ("IMAP_HOSTNAME", Some("imap.custom.tld")),
+                ("POP_HOSTNAME", Some("pop.example.tld")),
+                ("SMTP_HOSTNAME", Some("smtp.domain.tld")),
+            ],
+            || {
+                assert_eq!(
+                    Config {
+                        domain: "foo.tld",
+                        display_name: "foo.tld Mail".to_string(),
+                        imap_hostname: "imap.custom.tld".to_string(),
+                        pop_hostname: "pop.example.tld".to_string(),
+                        smtp_hostname: "smtp.domain.tld".to_string(),
+                    },
+                    get_config_for_domain("foo.tld")
+                );
+            },
+        );
     }
 }
