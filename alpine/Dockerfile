@@ -17,7 +17,7 @@ ARG RELEASE_VERSION
 LABEL org.label-schema.vendor="Wdes" \
     org.label-schema.url="https://github.com/wdes/mail-autodiscover-autoconfig#readme" \
     org.label-schema.name="mail-autodiscover-autoconfig" \
-    org.label-schema.description="A web server for autodiscover and autoconfig" \
+    org.label-schema.description="A docker image to deploy to have a dynamic autodiscover XML and autoconfig XML host. Supports Outlook, Thunderbird, Apple, some Android apps, and more.." \
     org.label-schema.version=${RELEASE_VERSION} \
     org.label-schema.vcs-url="https://github.com/wdes/mail-autodiscover-autoconfig.git" \
     org.label-schema.vcs-ref=${VCS_REF} \
@@ -27,6 +27,7 @@ LABEL org.label-schema.vendor="Wdes" \
     com.docker.extension.publisher-url="https://github.com/wdes" \
     \
     org.opencontainers.image.title="Docker autodiscover, autoconfig web server" \
+    org.opencontainers.image.description="A docker image to deploy to have a dynamic autodiscover XML and autoconfig XML host. Supports Outlook, Thunderbird, Apple, some Android apps, and more.." \
     org.opencontainers.image.authors="williamdes@wdes.fr" \
     org.opencontainers.image.url="https://github.com/wdes/mail-autodiscover-autoconfig#readme" \
     org.opencontainers.image.documentation="https://github.com/wdes/mail-autodiscover-autoconfig#readme" \
