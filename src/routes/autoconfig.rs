@@ -27,6 +27,7 @@ fn handle_mail_config_v11(host: HostHeader) -> AutoDiscoverXml {
     }
 }
 
+// Used by Maily (tested version: 1.0.0) (de.enough.enough_mail_app: https://github.com/Enough-Software/enough_mail/blob/v2.1.1/lib/src/private/util/discover_helper.dart#L34-L58)
 // Used by KMail (tested version: 5.19.3 (21.12.3)) (https://github.com/KDE/kmail-account-wizard/blob/v21.12.3/src/ispdb/ispdb.cpp#L64-L90) (https://invent.kde.org/pim/kmail-account-wizard/-/blob/v21.12.3/src/ispdb/ispdb.cpp#L64-90)
 // Used by Thunderbird (tested version: Thunderbird 91.10.0)
 // Used by FairEmail (tested version: 1.1917) (https://github.com/M66B/FairEmail/blob/1.1917/app/src/main/java/eu/faircode/email/EmailProvider.java#L558)

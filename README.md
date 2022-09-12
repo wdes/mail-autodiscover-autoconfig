@@ -32,6 +32,7 @@
 - [Android Nine](https://www.9folders.com/en/index.html) (tested version: [4.9.4b](https://play.google.com/store/apps/details?id=com.ninefolders.hd3))
 - [Spark Mail on Android](https://sparkmailapp.com/) (tested version: 2.11.8)
 - [MailTime on Android](https://mailtime.com/) (tested version: 2.5.4.0614)
+- [Maily on Android](https://github.com/Enough-Software/enough_mail_app#readme) (tested version: [1.0.0](https://play.google.com/store/apps/details?id=de.enough.enough_mail_app))
 
 ## Use it
 
