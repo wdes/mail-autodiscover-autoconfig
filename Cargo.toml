@@ -3,7 +3,7 @@ name = "mail-autodiscover-autoconfig"
 version = "1.5.0"
 authors = ["William Desportes <williamdes@wdes.fr>"]
 edition = "2021"
-rust-version = "1.63"
+rust-version = "1.64"
 build = "src/build.rs"
 
 [features]
