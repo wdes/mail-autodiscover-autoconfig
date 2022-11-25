@@ -34,6 +34,7 @@ fn handle_mail_config_v11(host: HostHeader) -> AutoDiscoverXml {
 // Used by Evolution on Ubuntu (tested version: 3.40.0-1) (/mail/config-v1.1.xml?emailaddress=EVOLUTIONUSER%40wdes.fr&emailmd5=46865a3ba18ca94e2c98f15b8cf14125) (https://gitlab.gnome.org/GNOME/evolution/-/blob/3.40.1/src/mail/e-mail-autoconfig.c#L514)
 // Used by Spark Mail on Android (tested version: 2.11.8)
 // Used by MailTime on Android (tested version: 2.5.4.0614)
+// Used by ProfiMail on Android (tested version: 4.31.08) (https://www.lonelycatgames.com/apps/profimail)
 #[get("/mail/config-v1.1.xml?<emailaddress>")]
 #[allow(unused_variables)]
 pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> AutoDiscoverXml {
