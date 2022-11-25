@@ -29,9 +29,9 @@ pub fn robots() -> Template {
 }
 
 #[get("/version")]
-pub fn version() -> Json<Version> {
+pub fn version() -> Json<Version<'static>> {
     Json(Version {
-        code: "v1".to_string(),
+        code: env!("VERGEN_BUILD_SEMVER"),
         description: "Wdes Mail AutoDiscover-AutoConfig (https://github.com/wdes/mail-autodiscover-autoconfig)".to_string(),
     })
 }
