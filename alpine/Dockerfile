@@ -1,4 +1,4 @@
-FROM rust:1.64.0-alpine3.16 as build-env
+FROM rust:1.64.0-alpine3.17 as build-env
 
 WORKDIR /workspace
 COPY . ./
@@ -7,7 +7,7 @@ RUN cargo test --release
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release
 
-FROM alpine:3.16 as runtime
+FROM alpine:3.17 as runtime
 
 ARG VCS_REF
 ARG BUILD_DATE
