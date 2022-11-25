@@ -25,7 +25,7 @@ rocket = { version = "0.5.0-rc.2", features = ["json"] }
 serde_json = "1.0.64"
 serde = "1.0.126"
 serde_derive = "1.0.126"
-serde-xml-rs = "0.5.1"
+serde-xml-rs = "0.6.0"
 
 chrono = "0.4.19"
 
@@ -38,7 +38,7 @@ version = "0.1.0-rc.2"
 features = ["tera"]
 
 [dev-dependencies]
-temp-env = "0.2.0"
+temp-env = "0.3.1"
 
 [build-dependencies]
 anyhow = "1.0.63"
