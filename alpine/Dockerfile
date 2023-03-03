@@ -1,4 +1,4 @@
-FROM rust:1.64.0-alpine3.17 as build-env
+FROM rust:1.67.1-alpine3.17 as build-env
 
 WORKDIR /workspace
 COPY . ./
