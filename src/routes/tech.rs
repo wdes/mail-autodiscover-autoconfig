@@ -35,3 +35,8 @@ pub fn version() -> Json<Version<'static>> {
         description: "Wdes Mail AutoDiscover-AutoConfig (https://github.com/wdes/mail-autodiscover-autoconfig)".to_string(),
     })
 }
+
+#[get("/ping")]
+pub fn ping() -> &'static str {
+    "pong"
+}

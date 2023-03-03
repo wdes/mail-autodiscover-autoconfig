@@ -44,6 +44,7 @@ fn rocket() -> _ {
             routes::tech::index,
             routes::tech::robots,
             routes::tech::version,
+            routes::tech::ping,
             routes::autoconfig::v11_mail_config_v11,
             routes::autoconfig::mail_config_v11,
             routes::autoconfig::well_known_mail_config_v11,
