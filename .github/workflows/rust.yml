@@ -6,8 +6,9 @@ permissions:
   contents: read
 
 jobs:
-    build:
+    build_and_test:
         runs-on: ubuntu-latest
+        name: Build and test binary
         steps:
             - name: Cache cargo registry
               uses: actions/cache@v3
@@ -37,35 +38,8 @@ jobs:
               with:
                   command: build
                   args: --release
-
-    test:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Cache cargo registry
-              uses: actions/cache@v3
-              with:
-                  path: ~/.cargo/registry
-                  key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-            - name: Cache cargo index
-              uses: actions/cache@v3
-              with:
-                  path: ~/.cargo/git
-                  key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
-            - name: Cache cargo build
-              uses: actions/cache@v3
-              with:
-                  path: target
-                  key: ${{ runner.os }}-cargo-test-build-target-${{ hashFiles('**/Cargo.lock') }}
-            - name: Checkout repository
-              uses: actions/checkout@v3
-            - name: Set up toolchain
-              uses: actions-rs/toolchain@v1
-              with:
-                  profile: minimal
-                  toolchain: 1.67.1
-                  override: true
             - name: Test
               uses: actions-rs/cargo@v1
               with:
                   command: test
+                  args: --release
