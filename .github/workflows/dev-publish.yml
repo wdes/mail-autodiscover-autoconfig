@@ -12,7 +12,7 @@ jobs:
         environment:
             name: "github-registry"
             url: https://github.com/orgs/wdes/packages?repo_name=mail-autodiscover-autoconfig
-        name: Build and test image and publish the image
+        name: Publish the dev image
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
