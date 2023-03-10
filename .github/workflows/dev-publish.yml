@@ -125,7 +125,7 @@ jobs:
           args: --release --locked --target ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
 
       - name: Rename file
-        run: mv project/mail-autodiscover-autoconfig ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
+        run: ls -lahR /project; mv /project/mail-autodiscover-autoconfig ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
 
       #- name: Release
       #  uses: fnkr/github-action-ghr@ghr-options
