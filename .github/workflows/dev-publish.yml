@@ -124,8 +124,19 @@ jobs:
           command: build
           args: --release --locked --target ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
 
+      - name: Create builds folder
+        run: mkdir ./builds
+
       - name: Rename file
-        run: ls -lahR ./; mv project/target/mail-autodiscover-autoconfig ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
+        run: ./target/${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}/release/mail-autodiscover-autoconfig ./builds/mail-autodiscover-autoconfig_${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: mail-autodiscover-autoconfig_${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}.tgz
+          path: ./builds/*
+          if-no-files-found: error
+          retention-days: 1
 
       #- name: Release
       #  uses: fnkr/github-action-ghr@ghr-options
