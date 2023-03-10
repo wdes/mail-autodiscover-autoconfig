@@ -128,7 +128,7 @@ jobs:
         run: mkdir ./builds
 
       - name: Rename file
-        run: ./target/${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}/release/mail-autodiscover-autoconfig ./builds/mail-autodiscover-autoconfig_${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
+        run: mv ./target/${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}/release/mail-autodiscover-autoconfig ./builds/mail-autodiscover-autoconfig_${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
