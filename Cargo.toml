@@ -22,11 +22,9 @@ addr = "0.15.3"
 rocket = { version = "0.5.0-rc.2", features = ["json"] }
 
 # Serialization/Deserialization
+quick-xml = { version = "0.27.1", default-features = false, features = [ "serialize" ] }
 serde_json = "1.0.64"
-serde = "1.0.126"
-serde_derive = "1.0.126"
-serde-xml-rs = "0.6.0"
-
+serde = { version = "1.0.153", default-features = false, features = [ "derive" ] }
 chrono = "0.4.19"
 
 [dependencies.tera]

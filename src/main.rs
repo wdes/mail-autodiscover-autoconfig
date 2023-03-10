@@ -3,7 +3,6 @@ extern crate rocket;
 extern crate dotenv;
 extern crate rocket_dyn_templates;
 extern crate serde;
-extern crate serde_derive;
 extern crate serde_json;
 extern crate tera;
 

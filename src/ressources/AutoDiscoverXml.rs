@@ -4,14 +4,15 @@ use rocket::http::{ContentType, Status};
 use rocket::request::Request;
 use rocket::response::{self, Responder, Response};
 use rocket_dyn_templates::Template;
-use serde_derive::Deserialize;
-use serde_xml_rs::from_str;
+use serde::Deserialize;
+use quick_xml::de::from_str;
+use quick_xml::DeError;
 use std::io;
 
 #[derive(Debug)]
 pub enum XmlError {
     Io(io::Error),
-    Parse(String, serde_xml_rs::Error),
+    Parse(String, DeError),
 }
 
 #[derive(Deserialize)]
@@ -51,7 +52,7 @@ impl<'r> FromData<'r> for AutoDiscoverXmlPayload {
             data.open(size_limit).into_string().await;
         match contents {
             Ok(dd) => {
-                let payload: Result<AutoDiscoverXmlPayload, serde_xml_rs::Error> = from_str(&dd);
+                let payload: Result<AutoDiscoverXmlPayload, DeError> = from_str(&dd);
                 match payload {
                     Ok(d) => Success(d),
                     Err(e) => Failure((
