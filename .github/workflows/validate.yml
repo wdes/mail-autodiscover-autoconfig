@@ -6,12 +6,12 @@ permissions:
   contents: read
 
 jobs:
-    Validate:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
-            - name: Install xmllint
-              run: sudo apt-get -y --no-install-recommends install libxml2-utils
-            - name: Check
-              run: make validate
+  Validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install xmllint
+        run: sudo apt-get -y --no-install-recommends install libxml2-utils
+      - name: Check
+        run: make validate

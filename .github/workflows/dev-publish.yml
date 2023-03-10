@@ -37,11 +37,9 @@ jobs:
           IMAGE_TAG: "ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:latest"
           ACTION: push
 
-  publish-binaries:
-    name: Publish binaries to the draft (${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.variant }})
+  build-binaries:
+    name: Build multi arch binaries (${{ matrix.arch }}-${{ matrix.variant }}) for ${{ matrix.os }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     strategy:
       fail-fast: false
       matrix:
@@ -137,12 +135,3 @@ jobs:
           path: ./builds/*
           if-no-files-found: error
           retention-days: 1
-
-      #- name: Release
-      #  uses: fnkr/github-action-ghr@ghr-options
-      #  if: startsWith(github.ref, 'refs/tags/')
-      #  env:
-      #    GHR_COMPRESS: xz
-      #    GHR_PATH: target/release/
-      #    GHR_DRAFT: yes
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

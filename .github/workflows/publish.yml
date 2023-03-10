@@ -1,38 +1,148 @@
 name: Publish Docker image
 
 permissions:
-    contents: read
+  contents: read
 
 on:
-    release:
-        types: [published]
+  push:
+    tags:
+      - "*"
 
 jobs:
-    publish-docker-image:
-        environment:
-            name: "docker-hub"
-            url: https://hub.docker.com/r/wdes/mail-autodiscover-autoconfig
-        name: Build and test image and publish the image
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
-            # https://github.com/docker/setup-qemu-action
-            - name: Set up QEMU
-              uses: docker/setup-qemu-action@v2
-            # https://github.com/docker/setup-buildx-action
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v2
-            - name: Login to DockerHub
-              uses: docker/login-action@v2
-              with:
-                  registry: docker.io
-                  username: ${{ secrets.DOCKER_HUB_USER }}
-                  password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-            - name: Build and push image
-              run: make docker-build
-              env:
-                  DOCKER_BUILDKIT: 1
-                  PLATFORM: linux/amd64
-                  IMAGE_TAG: "docker.io/wdes/mail-autodiscover-autoconfig:latest"
-                  ACTION: push
+  publish-docker-image:
+    environment:
+      name: "docker-hub"
+      url: https://hub.docker.com/r/wdes/mail-autodiscover-autoconfig
+    name: Build and test image and publish the image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      # https://github.com/docker/setup-qemu-action
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      # https://github.com/docker/setup-buildx-action
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Build and push image
+        run: make docker-build
+        env:
+          DOCKER_BUILDKIT: 1
+          PLATFORM: linux/amd64
+          IMAGE_TAG: "docker.io/wdes/mail-autodiscover-autoconfig:latest"
+          ACTION: push
+
+  publish-binaries:
+    name: Publish multi arch binaries on the release draft (${{ matrix.arch }}-${{ matrix.variant }}) for ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: linux, arch: aarch64, variant: gnu }
+          - { os: linux, arch: aarch64, variant: musl }
+
+          - { os: linux, arch: arm, variant: gnueabi }
+          - { os: linux, arch: arm, variant: gnueabihf }
+          - { os: linux, arch: arm, variant: musleabi }
+          - { os: linux, arch: arm, variant: musleabihf }
+
+          - { os: linux, arch: armv5te, variant: gnueabi }
+          - { os: linux, arch: armv5te, variant: musleabi }
+
+          - { os: linux, arch: armv7, variant: gnueabi }
+          - { os: linux, arch: armv7, variant: gnueabihf }
+          - { os: linux, arch: armv7, variant: musleabi }
+          - { os: linux, arch: armv7, variant: musleabihf }
+
+          - { os: linux, arch: i586, variant: gnu }
+          - { os: linux, arch: i586, variant: musl }
+
+          - { os: linux, arch: i686, variant: gnu }
+
+          - { os: linux, arch: mips, variant: gnu }
+          - { os: linux, arch: mips, variant: musl }
+
+          - { os: linux, arch: mips64, variant: gnuabi64 }
+          - { os: linux, arch: mips64, variant: muslabi64 }
+
+          - { os: linux, arch: mips64el, variant: gnuabi64 }
+          - { os: linux, arch: mips64el, variant: muslabi64 }
+
+          - { os: linux, arch: mipsel, variant: gnu }
+          - { os: linux, arch: mipsel, variant: musl }
+
+          - { os: linux, arch: powerpc, variant: gnu }
+          - { os: linux, arch: powerpc64, variant: gnu }
+          - { os: linux, arch: powerpc64le, variant: gnu }
+
+          - { os: linux, arch: riscv64gc, variant: gnu }
+
+          - { os: linux, arch: s390x, variant: gnu }
+
+          - { os: linux, arch: sparc64, variant: gnu }
+
+          - { os: linux, arch: x86_64, variant: gnu }
+          - { os: linux, arch: x86_64, variant: musl }
+
+    steps:
+      - name: Cache cargo registry
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo index
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo build
+        uses: actions/cache@v3
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: 1.67.1
+          override: true
+          target: ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --locked --target ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
+
+      - name: Create builds folder
+        run: mkdir ./builds
+
+      - name: Rename file
+        run: mv ./target/${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}/release/mail-autodiscover-autoconfig ./builds/mail-autodiscover-autoconfig_${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: mail-autodiscover-autoconfig_${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}.tgz
+          path: ./builds/*
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Publish to draft
+        uses: fnkr/github-action-ghr@ghr-options
+        env:
+          GHR_COMPRESS: xz
+          GHR_PATH: builds/
+          GHR_DRAFT: yes
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
