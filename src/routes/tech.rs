@@ -24,8 +24,8 @@ pub fn apple(host: HostHeader) -> Template {
 }
 
 #[get("/robots.txt")]
-pub fn robots() -> Template {
-    Template::render("static/robots", context! {})
+pub fn robots() -> &'static str {
+    "User-agent: *\nDisallow: /\n"
 }
 
 #[get("/version")]
