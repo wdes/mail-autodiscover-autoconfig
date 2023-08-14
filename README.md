@@ -29,6 +29,7 @@
 
 - [Apple iOS 15.6.1](https://support.apple.com/en-us/HT213412) (iOS: 15.6.1)
 - [FairEmail](https://github.com/M66B/FairEmail) (tested version: 1.1917)
+- [K-9 Mail since 6.709](https://github.com/thundernest/k-9#readme) (tested version: [6.709](https://github.com/thundernest/k-9/releases/tag/6.709))
 - [Android Nine](https://www.9folders.com/en/index.html) (tested version: [4.9.4b](https://play.google.com/store/apps/details?id=com.ninefolders.hd3))
 - [Spark Mail on Android](https://sparkmailapp.com/) (tested version: 2.11.8)
 - [MailTime on Android](https://mailtime.com/) (tested version: 2.5.4.0614)

@@ -35,6 +35,7 @@ fn handle_mail_config_v11(host: HostHeader) -> AutoDiscoverXml {
 // Used by Spark Mail on Android (tested version: 2.11.8)
 // Used by MailTime on Android (tested version: 2.5.4.0614)
 // Used by ProfiMail on Android (tested version: 4.31.08) (https://www.lonelycatgames.com/apps/profimail)
+// Used by K-9 Mail on Android (tested version: 6.709, since: 6.709)
 #[get("/mail/config-v1.1.xml?<emailaddress>")]
 #[allow(unused_variables)]
 pub fn mail_config_v11(host: HostHeader, emailaddress: Option<&str>) -> AutoDiscoverXml {
