@@ -62,6 +62,9 @@ pub fn well_known_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) 
 // Example: /autodiscover/autodiscover.json?Email=test%40wdes.fr&Protocol=ActiveSync&RedirectCount=1
 // Example: /autodiscover/autodiscover.json?Email=test%40wdes.fr&Protocol=Autodiscoverv1&RedirectCount=1
 #[get("/autodiscover/autodiscover.json?<Email>&<Protocol>&<RedirectCount>")]
+// Used by Microsoft Office 2009 (to be confirmed)
+// Example: /autodiscover/autodiscover.json/v1.0/infos%40domain.tld?Protocol=ActiveSync&RedirectCount=1
+#[get("/autodiscover/autodiscover.json/v1.0/infos?<Email>&<Protocol>&<RedirectCount>")]
 #[allow(unused_variables)]
 #[allow(non_snake_case)]
 pub fn post_mail_autodiscover_microsoft_json(
@@ -175,6 +178,7 @@ pub fn mail_autodiscover_microsoft_camel_case(
 // Used by Microsoft Outlook for Android (tested version: 4.2220.1)
 // Used by Microsoft Office Pro Plus 2013 (tested version: 15.0.5399.1000 64 bits)
 // Used by Microsoft Office Pro Plus 2021 (tested version: 14326.20454 64 bits)
+// Used by Microsoft Office 2009 (to be confirmed)
 #[post("/autodiscover/autodiscover.xml", data = "<payload>")]
 pub fn post_mail_autodiscover_microsoft(
     host: HostHeader,

@@ -89,3 +89,4 @@ You can disable some of the default features. For now the default features are:
 ## TODO
 
 - [Merge the Apple code with StephanvanSchaik's automail](https://github.com/StephanvanSchaik/automail), [ref: StephanvanSchaik/automail#1](https://github.com/StephanvanSchaik/automail/issues/1).
+- Test `// Used by Microsoft Office 2009 (to be confirmed)` and adjust the code comments.
