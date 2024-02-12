@@ -1,9 +1,9 @@
 [package]
 name = "mail-autodiscover-autoconfig"
-version = "1.6.0"
+version = "1.6.1"
 authors = ["William Desportes <williamdes@wdes.fr>"]
 edition = "2021"
-rust-version = "1.67"
+rust-version = "1.76"
 build = "src/build.rs"
 
 [features]
