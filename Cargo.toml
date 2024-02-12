@@ -6,6 +6,13 @@ edition = "2021"
 rust-version = "1.76"
 build = "src/build.rs"
 
+[badges]
+github = { repository = "mail-autodiscover-autoconfig", branch = "main" }
+#codecov = { repository = "mail-autodiscover-autoconfig", branch = "main", service = "github" }
+is-it-maintained-issue-resolution = { repository = "mail-autodiscover-autoconfig" }
+is-it-maintained-open-issues = { repository = "mail-autodiscover-autoconfig" }
+maintenance = { status = "passively-maintained" }
+
 [features]
 default = ["apple", "dns"]
 apple = []

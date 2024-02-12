@@ -1,5 +1,9 @@
 # Wdes Mail AutoDiscover-AutoConfig
 
+[![dependency status](https://deps.rs/repo/github/wdes/mail-autodiscover-autoconfig/status.svg)](https://deps.rs/repo/github/wdes/mail-autodiscover-autoconfig)
+[![Build and test rust code](https://github.com/wdes/mail-autodiscover-autoconfig/actions/workflows/rust.yml/badge.svg)](https://github.com/wdes/mail-autodiscover-autoconfig/actions/workflows/rust.yml)
+![maintenance-status](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
+
 ## Support
 
 - Thunderbird
