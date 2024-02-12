@@ -1,5 +1,6 @@
 // Source: https://github.com/SergioBenitez/Rocket/issues/823#issuecomment-1157761369
 use addr::parse_domain_name;
+use rocket::http::Status;
 use rocket::request::FromRequest;
 use rocket::request::Outcome;
 use rocket::Request;
@@ -23,7 +24,7 @@ fn get_base_domain<'a>(header: &'a str) -> String {
 
 #[rocket::async_trait]
 impl<'r> FromRequest<'r> for HostHeader<'r> {
-    type Error = ();
+    type Error = String;
 
     async fn from_request(req: &'r Request<'_>) -> Outcome<Self, Self::Error> {
         let header_name: &str = match req.headers().contains("X-Forwarded-Host") {
@@ -36,7 +37,10 @@ impl<'r> FromRequest<'r> for HostHeader<'r> {
                 host: h,
                 base_domain: get_base_domain(h),
             }),
-            None => Outcome::Forward(()),
+            None => Outcome::Error((
+                Status::UnprocessableEntity,
+                "Missing a Host or X-Forwarded-Host header".to_string(),
+            )),
         }
     }
 }

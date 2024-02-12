@@ -54,6 +54,7 @@ fn rocket() -> _ {
             routes::autoconfig::post_mail_autodiscover_microsoft_case,
             routes::autoconfig::post_mail_autodiscover_microsoft_camel_case,
             routes::autoconfig::post_mail_autodiscover_microsoft_json,
+            routes::autoconfig::post_mail_autodiscover_microsoft_json_legacy,
         ],
     );
     if cfg!(feature = "apple") {

@@ -1,3 +1,5 @@
+use quick_xml::de::from_str;
+use quick_xml::DeError;
 use rocket::data::ByteUnit;
 use rocket::data::{self, Capped, Data, FromData};
 use rocket::http::{ContentType, Status};
@@ -5,8 +7,6 @@ use rocket::request::Request;
 use rocket::response::{self, Responder, Response};
 use rocket_dyn_templates::Template;
 use serde::Deserialize;
-use quick_xml::de::from_str;
-use quick_xml::DeError;
 use std::io;
 
 #[derive(Debug)]
@@ -45,7 +45,7 @@ impl<'r> FromData<'r> for AutoDiscoverXmlPayload {
     type Error = XmlError;
 
     async fn from_data(req: &'r Request<'_>, data: Data<'r>) -> data::Outcome<'r, Self> {
-        use rocket::outcome::Outcome::*;
+        use rocket::outcome::Outcome::{Error, Success};
         let size_limit = req.limits().get("xml").unwrap_or(ByteUnit::Kilobyte(4096));
 
         let contents: Result<Capped<std::string::String>, std::io::Error> =
@@ -55,13 +55,13 @@ impl<'r> FromData<'r> for AutoDiscoverXmlPayload {
                 let payload: Result<AutoDiscoverXmlPayload, DeError> = from_str(&dd);
                 match payload {
                     Ok(d) => Success(d),
-                    Err(e) => Failure((
+                    Err(e) => Error((
                         Status::UnprocessableEntity,
                         XmlError::Parse(dd.to_string(), e),
                     )),
                 }
             }
-            Err(e) => Failure((Status::UnprocessableEntity, XmlError::Io(e))),
+            Err(e) => Error((Status::UnprocessableEntity, XmlError::Io(e))),
         }
     }
 }

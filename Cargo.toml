@@ -19,7 +19,7 @@ dotenv = "0.15.0"
 addr = "0.15.3"
 
 # Webserver
-rocket = { version = "0.5.0-rc.2", features = ["json"] }
+rocket = { version = "0.5.0", features = ["json"] }
 
 # Serialization/Deserialization
 quick-xml = { version = "0.27.1", default-features = false, features = [ "serialize" ] }

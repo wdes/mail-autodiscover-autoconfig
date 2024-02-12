@@ -62,12 +62,43 @@ pub fn well_known_mail_config_v11(host: HostHeader, emailaddress: Option<&str>) 
 // Example: /autodiscover/autodiscover.json?Email=test%40wdes.fr&Protocol=ActiveSync&RedirectCount=1
 // Example: /autodiscover/autodiscover.json?Email=test%40wdes.fr&Protocol=Autodiscoverv1&RedirectCount=1
 #[get("/autodiscover/autodiscover.json?<Email>&<Protocol>&<RedirectCount>")]
+#[allow(unused_variables)]
+#[allow(non_snake_case)]
+pub fn post_mail_autodiscover_microsoft_json(
+    host: HostHeader,
+    Email: Option<&str>,
+    Protocol: Option<&str>,
+    RedirectCount: Option<&str>,
+) -> Result<Json<AutoDiscoverJson>, AutoDiscoverJsonError> {
+    match Protocol {
+        Some("AutodiscoverV1") => Ok(Json(AutoDiscoverJson {
+            Protocol: "AutodiscoverV1".to_string(),
+            Url: "https://".to_owned() + &host.host + "/Autodiscover/Autodiscover.xml",
+        })),
+        Some("Autodiscoverv1") => Ok(Json(AutoDiscoverJson {
+            Protocol: "Autodiscoverv1".to_string(),
+            Url: "https://".to_owned() + &host.host + "/Autodiscover/Autodiscover.xml",
+        })),
+        /*
+        Some("ActiveSync") => Some(AutoDiscoverJson {
+            Protocol: "ActiveSync".to_string(),
+            Url: "https://".to_owned() + &host.host + "/Microsoft-Server-ActiveSync",
+        }),*/
+        _ => Err(AutoDiscoverJsonError {
+            ErrorCode: "InvalidProtocol".to_string(),
+            ErrorMessage:
+                "The given protocol value is invalid. Supported values are \"AutodiscoverV1\" or \"Autodiscoverv1\"."
+                    .to_string(),
+        }),
+    }
+}
+
 // Used by Microsoft Office 2009 (to be confirmed)
 // Example: /autodiscover/autodiscover.json/v1.0/infos%40domain.tld?Protocol=ActiveSync&RedirectCount=1
 #[get("/autodiscover/autodiscover.json/v1.0/infos?<Email>&<Protocol>&<RedirectCount>")]
 #[allow(unused_variables)]
 #[allow(non_snake_case)]
-pub fn post_mail_autodiscover_microsoft_json(
+pub fn post_mail_autodiscover_microsoft_json_legacy(
     host: HostHeader,
     Email: Option<&str>,
     Protocol: Option<&str>,
