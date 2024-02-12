@@ -68,18 +68,6 @@ jobs:
 
           - { os: linux, arch: i686, variant: gnu }
 
-          - { os: linux, arch: mips, variant: gnu }
-          - { os: linux, arch: mips, variant: musl }
-
-          - { os: linux, arch: mips64, variant: gnuabi64 }
-          - { os: linux, arch: mips64, variant: muslabi64 }
-
-          - { os: linux, arch: mips64el, variant: gnuabi64 }
-          - { os: linux, arch: mips64el, variant: muslabi64 }
-
-          - { os: linux, arch: mipsel, variant: gnu }
-          - { os: linux, arch: mipsel, variant: musl }
-
           - { os: linux, arch: powerpc, variant: gnu }
           - { os: linux, arch: powerpc64, variant: gnu }
           - { os: linux, arch: powerpc64le, variant: gnu }
