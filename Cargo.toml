@@ -40,4 +40,4 @@ temp-env = "0.3.1"
 
 [build-dependencies]
 anyhow = "1.0.63"
-vergen = { version = "7.4.2", default-features = false, features = ["build", "git", "rustc"] }
+vergen = { version = "8.3.1", features = ["build", "cargo", "git", "gitcl", "rustc"] }

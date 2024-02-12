@@ -31,7 +31,7 @@ pub fn robots() -> &'static str {
 #[get("/version")]
 pub fn version() -> Json<Version<'static>> {
     Json(Version {
-        code: env!("VERGEN_BUILD_SEMVER"),
+        code: env!("CARGO_PKG_VERSION"),
         description: "Wdes Mail AutoDiscover-AutoConfig (https://github.com/wdes/mail-autodiscover-autoconfig)".to_string(),
     })
 }

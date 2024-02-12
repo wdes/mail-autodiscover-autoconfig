@@ -23,7 +23,7 @@ fn rocket() -> _ {
 
     println!(
         "Version: {} built on Rust: {} at: {} using commit: {} on branch: {}",
-        env!("VERGEN_BUILD_SEMVER"),
+        env!("CARGO_PKG_VERSION"),
         env!("VERGEN_RUSTC_SEMVER"),
         env!("VERGEN_BUILD_TIMESTAMP"),
         env!("VERGEN_GIT_SHA"),
