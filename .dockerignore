@@ -2,6 +2,7 @@
 !/src
 !/templates
 !/Cargo.toml
+!/Cargo.lock
 !/.git
 /.git/*config*
 /.git/smartgit
