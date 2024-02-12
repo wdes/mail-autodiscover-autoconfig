@@ -33,7 +33,7 @@ jobs:
         run: make docker-build
         env:
           DOCKER_BUILDKIT: 1
-          PLATFORM: linux/amd64
+          PLATFORM: linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8
           IMAGE_TAG: "ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:latest"
           ACTION: push
 
