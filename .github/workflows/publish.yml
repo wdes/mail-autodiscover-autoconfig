@@ -103,7 +103,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: 1.76
+          toolchain: 1.72
           override: true
           target: ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
       - name: Build
