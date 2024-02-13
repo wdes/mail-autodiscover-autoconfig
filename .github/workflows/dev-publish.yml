@@ -8,35 +8,6 @@ on:
   push:
 
 jobs:
-  publish-docker-image:
-    environment:
-      name: "github-registry"
-      url: https://github.com/orgs/wdes/packages?repo_name=mail-autodiscover-autoconfig
-    name: Publish the dev image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      # https://github.com/docker/setup-qemu-action
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      # https://github.com/docker/setup-buildx-action
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to DockerHub
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push image
-        run: make docker-build
-        env:
-          DOCKER_BUILDKIT: 1
-          PLATFORM: linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8
-          IMAGE_TAG: "ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:latest"
-          ACTION: push
-
   build-binaries:
     name: Build multi arch binaries (${{ matrix.arch }}-${{ matrix.variant }}) for ${{ matrix.os }}
     runs-on: ubuntu-latest
@@ -123,3 +94,95 @@ jobs:
           path: ./builds/*
           if-no-files-found: error
           retention-days: 1
+
+  build-image:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - { platform: "linux/arm/v6", internal-tag: "armv6" }
+          - { platform: "linux/arm/v7", internal-tag: "armv7" }
+          - { platform: "linux/arm64/v8", internal-tag: "arm64v8" }
+          - { platform: "linux/386", internal-tag: "386" }
+          - { platform: "linux/ppc64le", internal-tag: "ppc64le" }
+          - { platform: "linux/amd64", internal-tag: "amd64" }
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      # https://github.com/docker/setup-qemu-action
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      # https://github.com/docker/setup-buildx-action
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKER_REPOSITORY_LOGIN }}
+          password: ${{ secrets.DOCKER_REPOSITORY_PASSWORD }}
+      - name: Build and push image
+        run: make docker-build
+        env:
+          DOCKER_BUILDKIT: 1
+          BUILDKIT_MULTI_PLATFORM: "false"
+          PLATFORM: ${{ matrix.platform }}
+          IMAGE_TAG: "ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:${{ matrix.internal-tag }}-edge"
+          ACTION: push
+          # Disable provenance to remove the attestation from the pushed image
+          # See: https://github.com/docker/buildx/issues/1509
+          # It makes: ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:<arch>-edge a manifest list
+          # And docker manifest create does not like that
+          EXTRA_ARGS: "--provenance=false"
+
+  create-final-image:
+    runs-on: ubuntu-latest
+    needs: build-image
+    name: Create the image manifest
+    steps:
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKER_REPOSITORY_LOGIN }}
+          password: ${{ secrets.DOCKER_REPOSITORY_PASSWORD }}
+      - name: Create the manifest
+        run: |
+          docker manifest create ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:edge \
+              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:armv6-edge \
+              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:armv7-edge \
+              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:arm64v8-edge \
+              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:386-edge \
+              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:ppc64le-edge \
+              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:amd64-edge \
+              --amend
+      - name: Push the manifest
+        run: docker manifest push ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:edge
+      - name: Inspect the manifest
+        run: docker manifest inspect ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:edge
+
+  tags-cleanup:
+    runs-on: ubuntu-latest
+    needs: create-final-image
+    name: Cleanup build tags
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        include:
+          - { platform: "linux/arm/v6", internal-tag: "armv6" }
+          - { platform: "linux/arm/v7", internal-tag: "armv7" }
+          - { platform: "linux/arm64/v8", internal-tag: "arm64v8" }
+          - { platform: "linux/386", internal-tag: "386" }
+          - { platform: "linux/ppc64le", internal-tag: "ppc64le" }
+          - { platform: "linux/amd64", internal-tag: "amd64" }
+    steps:
+      - name: Delete image
+        uses: bots-house/ghcr-delete-image-action@v1.1.0
+        with:
+          owner: wdes
+          name: mail-autodiscover-autoconfig
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ matrix.internal-tag }}-edge
