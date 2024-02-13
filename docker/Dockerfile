@@ -1,13 +1,13 @@
-FROM rust:1.76-alpine3.19 as build-env
+FROM alpine:3.19 as build-env
 
 WORKDIR /workspace
 COPY . ./
-RUN apk add --no-cache --update musl-dev openssl-dev
+RUN apk add --no-cache --update musl-dev openssl-dev rust
 RUN cargo test --release
 # https://users.rust-lang.org/t/sigsegv-with-program-linked-against-openssl-in-an-alpine-container/52172
 RUN RUSTFLAGS="-C target-feature=-crt-static" cargo build --release
 
-FROM alpine:3.17 as runtime
+FROM alpine:3.19 as runtime
 
 ARG VCS_REF
 ARG BUILD_DATE
