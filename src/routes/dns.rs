@@ -13,7 +13,9 @@ pub fn dns_txt_zone(host: HostHeader) -> DnsTxtResponse {
         template: Template::render(
             "dns/zone",
             context! {
-                domain: config.domain,
+                imap_hostname: config.imap_hostname,
+                pop_hostname: config.pop_hostname,
+                smtp_hostname: config.smtp_hostname,
             },
         ),
     }

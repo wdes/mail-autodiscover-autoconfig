@@ -1,12 +1,12 @@
 ; This are the records according to RFC6186
-_imap._tcp.{{ domain }}.	SRV	0	1	143	imap.{{ domain }}.
-_imaps._tcp.{{ domain }}.	SRV	0	1	993	imap.{{ domain }}.
-_pop3._tcp.{{ domain }}.	SRV	0	1	110	pop.{{ domain }}.
-_pop3s._tcp.{{ domain }}.	SRV	0	1	995	pop.{{ domain }}.
-_submission._tcp.{{ domain }}.	SRV	0	1	587	smtp.{{ domain }}.
-_submission._tcp.{{ domain }}.	SRV	0	2	25	smtp.{{ domain }}.
+_imap._tcp.{{ domain }}.	SRV	0	1	143	{{ imap_hostname }}.
+_imaps._tcp.{{ domain }}.	SRV	0	1	993	{{ imap_hostname }}.
+_pop3._tcp.{{ domain }}.	SRV	0	1	110	{{ pop_hostname }}.
+_pop3s._tcp.{{ domain }}.	SRV	0	1	995	{{ pop_hostname }}.
+_submission._tcp.{{ domain }}.	SRV	0	1	587	{{ smtp_hostname }}.
+_submission._tcp.{{ domain }}.	SRV	0	2	25	{{ smtp_hostname }}.
 ; This is a record according to RFC8314
-_submissions._tcp.{{ domain }}.	SRV	0	1	465	smtp.{{ domain }}.
+_submissions._tcp.{{ domain }}.	SRV	0	1	465	{{ smtp_hostname }}.
 ; This is a Microsoft Exchange record
 ; See: https://docs.microsoft.com/en-us/exchange/client-developer/exchange-web-services/autodiscover-for-exchange#querying-dns-for-an-srv-record
 _autodiscover._tcp.{{ domain }}.	SRV	0	1	443	autodiscover.{{ domain }}.
