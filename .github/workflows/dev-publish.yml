@@ -76,6 +76,7 @@ jobs:
           override: true
           target: ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
       - name: Build
+        if: never()
         uses: actions-rs/cargo@v1
         with:
           use-cross: true
@@ -128,6 +129,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push image
         run: make docker-build
+        if: never()
         env:
           DOCKER_BUILDKIT: 1
           BUILDKIT_MULTI_PLATFORM: "false"
@@ -152,15 +154,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Create the manifest
+        # ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:arm64v8-edge \
+        # ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:ppc64le-edge \
         run: |
           docker manifest create ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:edge \
               ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:armv6-edge \
               ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:armv7-edge \
-              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:arm64v8-edge \
               ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:386-edge \
-              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:ppc64le-edge \
-              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:amd64-edge \
-              --amend
+              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:amd64-edge
       - name: Push the manifest
         run: docker manifest push ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:edge
       - name: Inspect the manifest
