@@ -14,14 +14,14 @@ jobs:
     permissions:
       packages: write
     steps:
-      - name: Delete image
+      - name: Delete not tagged refs
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
           owner: wdes
           name: mail-autodiscover-autoconfig/mail-autodiscover-autoconfig
           token: ${{ secrets.GITHUB_TOKEN }}
           # Keep latest N untagged images
-          untagged-keep-latest: 0
+          untagged-keep-latest: 1
 
   build-binaries:
     name: Build multi arch binaries (${{ matrix.arch }}-${{ matrix.variant }}) for ${{ matrix.os }}
