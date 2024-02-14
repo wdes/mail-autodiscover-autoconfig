@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/exchange/autodiscover/outlook/requestschema/2006"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema
+    attributeFormDefault="unqualified"
+    elementFormDefault="qualified"
+    targetNamespace="http://schemas.microsoft.com/exchange/autodiscover/outlook/requestschema/2006"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
     <xs:element name="Autodiscover">
         <xs:complexType>
             <xs:sequence>

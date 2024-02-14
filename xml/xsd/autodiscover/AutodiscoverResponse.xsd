@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns=
-"http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006" targetNamespace=
-"http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006"
-    xmlns:exchange=
-"http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" elementFormDefault="qualified" attributeFormDefault="unqualified">
-    <xs:import namespace=
-"http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" schemaLocation="AutodiscoverExchangeResponse.xsd"/>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006"
+    targetNamespace="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006"
+    xmlns:exchange="http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+>
+    <xs:import
+        namespace="http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a"
+        schemaLocation="AutodiscoverExchangeResponse.xsd"
+    />
     <xs:element name="Autodiscover">
         <xs:complexType>
             <xs:sequence>
