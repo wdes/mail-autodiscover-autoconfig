@@ -1,7 +1,7 @@
 use crate::host_header::HostHeader;
-use crate::ressources::AppleResponse::AppleResponse;
-use crate::ressources::AutoDiscoverJson::{AutoDiscoverJson, AutoDiscoverJsonError};
-use crate::ressources::AutoDiscoverXml::{
+use crate::resources::AppleResponse::AppleResponse;
+use crate::resources::AutoDiscoverJson::{AutoDiscoverJson, AutoDiscoverJsonError};
+use crate::resources::AutoDiscoverXml::{
     AutoDiscoverXml, AutoDiscoverXmlError, AutoDiscoverXmlPayload,
 };
 use crate::util::{get_config_for_domain, Config};
