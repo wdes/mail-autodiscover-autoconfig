@@ -4,9 +4,9 @@ permissions:
   contents: read
 
 on:
-  push:
-    tags:
-      - "*"
+  release:
+    types:
+      - published
 
 jobs:
   build-image:
@@ -107,34 +107,34 @@ jobs:
           #- { platform: "linux/ppc64le", internal-tag: "ppc64le" }
           - { platform: "linux/amd64", internal-tag: "amd64" }
         steps:
-            - name: Install Docker hub-tool
-              run: |
-                  curl -sL https://github.com/docker/hub-tool/releases/download/v0.4.5/hub-tool-linux-amd64.tar.gz -o hub-tool-linux.tar.gz
-                  tar --strip-components=1 -xzf ./hub-tool-linux.tar.gz
-                  ./hub-tool --version
-            - name: Login hub-tool
-              run: |
-                  # Fool the login command (https://github.com/docker/hub-tool/pull/198)
-                  # ./hub-tool login
-                  # Token commands thank to https://stackoverflow.com/a/59334315/5155484
-                  HUB_TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "{\"username\": \"$DOCKER_USERNAME\", \"password\": \"$DOCKER_PASSWORD\"}" https://hub.docker.com/v2/users/login/ | jq -r .token)
-                  USERNAME="$(printf '%s:' "$DOCKER_USERNAME" | base64 -w0)"
-                  USER_PASS="$(printf '%s:%s' "$DOCKER_USERNAME" "$DOCKER_PASSWORD" | base64 -w0)"
-                  mkdir -p ~/.docker/
-                  printf '{"auths": {"hub-tool": {"auth": "%s"}, "hub-tool-refresh-token": {"auth": "%s"}, "hub-tool-token": { "auth": "%s", "identitytoken": "%s"}}}' \
-                    "$USER_PASS" "$USERNAME" \
-                    "$USERNAME" "$HUB_TOKEN" \
-                    > ~/.docker/config.json
-              env:
-                  DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
-                  DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-            - name: Remove PR container image via hub-tool
-              run: |
-                  ./hub-tool tag rm --verbose --force docker.io/wdes/mail-autodiscover-autoconfig:${{ matrix.internal-tag }}-latest || true
-                  ./hub-tool tag ls --verbose ocker.io/wdes/mail-autodiscover-autoconfig
-            - name: Logout hub-tool
-              if: always()
-              run: rm ~/.docker/config.json
+          - name: Install Docker hub-tool
+            run: |
+              curl -sL https://github.com/docker/hub-tool/releases/download/v0.4.5/hub-tool-linux-amd64.tar.gz -o hub-tool-linux.tar.gz
+              tar --strip-components=1 -xzf ./hub-tool-linux.tar.gz
+              ./hub-tool --version
+          - name: Login hub-tool
+            run: |
+              # Fool the login command (https://github.com/docker/hub-tool/pull/198)
+              # ./hub-tool login
+              # Token commands thank to https://stackoverflow.com/a/59334315/5155484
+              HUB_TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "{\"username\": \"$DOCKER_USERNAME\", \"password\": \"$DOCKER_PASSWORD\"}" https://hub.docker.com/v2/users/login/ | jq -r .token)
+              USERNAME="$(printf '%s:' "$DOCKER_USERNAME" | base64 -w0)"
+              USER_PASS="$(printf '%s:%s' "$DOCKER_USERNAME" "$DOCKER_PASSWORD" | base64 -w0)"
+              mkdir -p ~/.docker/
+              printf '{"auths": {"hub-tool": {"auth": "%s"}, "hub-tool-refresh-token": {"auth": "%s"}, "hub-tool-token": { "auth": "%s", "identitytoken": "%s"}}}' \
+                "$USER_PASS" "$USERNAME" \
+                "$USERNAME" "$HUB_TOKEN" \
+                > ~/.docker/config.json
+            env:
+              DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
+              DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          - name: Remove PR container image via hub-tool
+            run: |
+              ./hub-tool tag rm --verbose --force docker.io/wdes/mail-autodiscover-autoconfig:${{ matrix.internal-tag }}-latest || true
+              ./hub-tool tag ls --verbose ocker.io/wdes/mail-autodiscover-autoconfig
+          - name: Logout hub-tool
+            if: always()
+            run: rm ~/.docker/config.json
 
   publish-binaries:
     name: Publish multi arch binaries on the release draft (${{ matrix.arch }}-${{ matrix.variant }}) for ${{ matrix.os }}
@@ -225,10 +225,9 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-      - name: Publish to draft
-        uses: fnkr/github-action-ghr@ghr-options
-        env:
-          GHR_COMPRESS: xz
-          GHR_PATH: builds/
-          GHR_DRAFT: yes
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file_glob: builds/*
+          tag: ${{ github.ref }}
