@@ -143,23 +143,31 @@ jobs:
       contents: write # Edit release artifacts
     strategy:
       fail-fast: false
+      max-parallel: 4
       matrix:
         include:
+          - { os: linux, arch: x86_64, variant: gnu }
+          - { os: linux, arch: x86_64, variant: musl }
+
           - { os: linux, arch: aarch64, variant: gnu }
           - { os: linux, arch: aarch64, variant: musl }
+
+          - { os: linux, arch: riscv64gc, variant: gnu }
 
           - { os: linux, arch: arm, variant: gnueabi }
           - { os: linux, arch: arm, variant: gnueabihf }
           - { os: linux, arch: arm, variant: musleabi }
           - { os: linux, arch: arm, variant: musleabihf }
 
-          - { os: linux, arch: armv5te, variant: gnueabi }
-          - { os: linux, arch: armv5te, variant: musleabi }
-
           - { os: linux, arch: armv7, variant: gnueabi }
           - { os: linux, arch: armv7, variant: gnueabihf }
           - { os: linux, arch: armv7, variant: musleabi }
           - { os: linux, arch: armv7, variant: musleabihf }
+
+          - { os: linux, arch: s390x, variant: gnu }
+
+          - { os: linux, arch: armv5te, variant: gnueabi }
+          - { os: linux, arch: armv5te, variant: musleabi }
 
           - { os: linux, arch: i586, variant: gnu }
           - { os: linux, arch: i586, variant: musl }
@@ -170,14 +178,8 @@ jobs:
           - { os: linux, arch: powerpc64, variant: gnu }
           - { os: linux, arch: powerpc64le, variant: gnu }
 
-          - { os: linux, arch: riscv64gc, variant: gnu }
-
-          - { os: linux, arch: s390x, variant: gnu }
-
           - { os: linux, arch: sparc64, variant: gnu }
 
-          - { os: linux, arch: x86_64, variant: gnu }
-          - { os: linux, arch: x86_64, variant: musl }
 
     steps:
       - name: Cache cargo registry
