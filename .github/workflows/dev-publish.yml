@@ -8,6 +8,21 @@ on:
   push:
 
 jobs:
+  untagged-cleanup:
+    name: Cleanup not tagged refs
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Delete image
+        uses: bots-house/ghcr-delete-image-action@v1.1.0
+        with:
+          owner: wdes
+          name: mail-autodiscover-autoconfig/mail-autodiscover-autoconfig
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Keep latest N untagged images
+          untagged-keep-latest: 0
+
   build-binaries:
     name: Build multi arch binaries (${{ matrix.arch }}-${{ matrix.variant }}) for ${{ matrix.os }}
     runs-on: ubuntu-latest
@@ -76,7 +91,6 @@ jobs:
           override: true
           target: ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
       - name: Build
-        if: ${{ false }}
         uses: actions-rs/cargo@v1
         with:
           use-cross: true
@@ -129,7 +143,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push image
         run: make docker-build
-        if: ${{ false }}
         env:
           DOCKER_BUILDKIT: 1
           BUILDKIT_MULTI_PLATFORM: "false"
@@ -186,7 +199,7 @@ jobs:
           #- { platform: "linux/ppc64le", internal-tag: "ppc64le" }
           - { platform: "linux/amd64", internal-tag: "amd64" }
     steps:
-      - name: Delete image
+      - name: Delete build tag
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
           owner: wdes
