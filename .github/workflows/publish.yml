@@ -9,12 +9,25 @@ on:
       - "*"
 
 jobs:
-  publish-docker-image:
+  build-image:
+    name: Build the Docker image on Docker Hub
     environment:
       name: "docker-hub"
       url: https://hub.docker.com/r/wdes/mail-autodiscover-autoconfig
-    name: Build and test image and publish the image
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - { platform: "linux/arm/v6", internal-tag: "armv6" }
+          - { platform: "linux/arm/v7", internal-tag: "armv7" }
+          # Does not finish building
+          #- { platform: "linux/arm64/v8", internal-tag: "arm64v8" }
+          - { platform: "linux/386", internal-tag: "386" }
+          # Does not finish building
+          #- { platform: "linux/ppc64le", internal-tag: "ppc64le" }
+          - { platform: "linux/amd64", internal-tag: "amd64" }
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,7 +37,7 @@ jobs:
       # https://github.com/docker/setup-buildx-action
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Login to DockerHub
+      - name: Login to the registry
         uses: docker/login-action@v3
         with:
           registry: docker.io
@@ -34,9 +47,94 @@ jobs:
         run: make docker-build
         env:
           DOCKER_BUILDKIT: 1
-          PLATFORM: linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8
-          IMAGE_TAG: "docker.io/wdes/mail-autodiscover-autoconfig:latest"
+          BUILDKIT_MULTI_PLATFORM: "false"
+          PLATFORM: ${{ matrix.platform }}
+          IMAGE_TAG: "docker.io/wdes/mail-autodiscover-autoconfig:${{ matrix.internal-tag }}-latest"
           ACTION: push
+          # Disable provenance to remove the attestation from the pushed image
+          # See: https://github.com/docker/buildx/issues/1509
+          # It makes: docker.io/wdes/mail-autodiscover-autoconfig:<arch>-latest a manifest list
+          # And docker manifest create does not like that
+          EXTRA_ARGS: "--provenance=false"
+
+  create-final-image:
+    environment:
+      name: "docker-hub"
+      url: https://hub.docker.com/r/wdes/mail-autodiscover-autoconfig
+    runs-on: ubuntu-latest
+    needs: build-image
+    name: Create the image manifest
+    steps:
+      - name: Login to the registry
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Create the manifest
+        # docker.io/wdes/mail-autodiscover-autoconfig:arm64v8-latest \
+        # docker.io/wdes/mail-autodiscover-autoconfig:ppc64le-latest \
+        run: |
+          docker manifest create docker.io/wdes/mail-autodiscover-autoconfig:latest \
+              docker.io/wdes/mail-autodiscover-autoconfig:armv6-latest \
+              docker.io/wdes/mail-autodiscover-autoconfig:armv7-latest \
+              docker.io/wdes/mail-autodiscover-autoconfig:386-latest \
+              docker.io/wdes/mail-autodiscover-autoconfig:amd64-latest \
+              --amend
+      - name: Push the manifest
+        run: docker manifest push docker.io/wdes/mail-autodiscover-autoconfig:latest
+      - name: Inspect the manifest
+        run: docker manifest inspect docker.io/wdes/mail-autodiscover-autoconfig:latest
+
+  tags-cleanup:
+    environment:
+      name: "docker-hub"
+      url: https://hub.docker.com/r/wdes/mail-autodiscover-autoconfig
+    runs-on: ubuntu-latest
+    needs: create-final-image
+    name: Cleanup build tags
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        include:
+          - { platform: "linux/arm/v6", internal-tag: "armv6" }
+          - { platform: "linux/arm/v7", internal-tag: "armv7" }
+          # Does not finish building
+          #- { platform: "linux/arm64/v8", internal-tag: "arm64v8" }
+          - { platform: "linux/386", internal-tag: "386" }
+          # Does not finish building
+          #- { platform: "linux/ppc64le", internal-tag: "ppc64le" }
+          - { platform: "linux/amd64", internal-tag: "amd64" }
+        steps:
+            - name: Install Docker hub-tool
+              run: |
+                  curl -sL https://github.com/docker/hub-tool/releases/download/v0.4.5/hub-tool-linux-amd64.tar.gz -o hub-tool-linux.tar.gz
+                  tar --strip-components=1 -xzf ./hub-tool-linux.tar.gz
+                  ./hub-tool --version
+            - name: Login hub-tool
+              run: |
+                  # Fool the login command (https://github.com/docker/hub-tool/pull/198)
+                  # ./hub-tool login
+                  # Token commands thank to https://stackoverflow.com/a/59334315/5155484
+                  HUB_TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "{\"username\": \"$DOCKER_USERNAME\", \"password\": \"$DOCKER_PASSWORD\"}" https://hub.docker.com/v2/users/login/ | jq -r .token)
+                  USERNAME="$(printf '%s:' "$DOCKER_USERNAME" | base64 -w0)"
+                  USER_PASS="$(printf '%s:%s' "$DOCKER_USERNAME" "$DOCKER_PASSWORD" | base64 -w0)"
+                  mkdir -p ~/.docker/
+                  printf '{"auths": {"hub-tool": {"auth": "%s"}, "hub-tool-refresh-token": {"auth": "%s"}, "hub-tool-token": { "auth": "%s", "identitytoken": "%s"}}}' \
+                    "$USER_PASS" "$USERNAME" \
+                    "$USERNAME" "$HUB_TOKEN" \
+                    > ~/.docker/config.json
+              env:
+                  DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
+                  DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+            - name: Remove PR container image via hub-tool
+              run: |
+                  ./hub-tool tag rm --verbose --force docker.io/wdes/mail-autodiscover-autoconfig:${{ matrix.internal-tag }}-latest || true
+                  ./hub-tool tag ls --verbose ocker.io/wdes/mail-autodiscover-autoconfig
+            - name: Logout hub-tool
+              if: always()
+              run: rm ~/.docker/config.json
 
   publish-binaries:
     name: Publish multi arch binaries on the release draft (${{ matrix.arch }}-${{ matrix.variant }}) for ${{ matrix.os }}
