@@ -76,7 +76,7 @@ jobs:
           override: true
           target: ${{ matrix.arch }}-unknown-${{ matrix.os }}-${{ matrix.variant }}
       - name: Build
-        if: never()
+        if: ${{ false }}
         uses: actions-rs/cargo@v1
         with:
           use-cross: true
@@ -129,7 +129,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push image
         run: make docker-build
-        if: never()
+        if: ${{ false }}
         env:
           DOCKER_BUILDKIT: 1
           BUILDKIT_MULTI_PLATFORM: "false"
