@@ -105,9 +105,11 @@ jobs:
         include:
           - { platform: "linux/arm/v6", internal-tag: "armv6" }
           - { platform: "linux/arm/v7", internal-tag: "armv7" }
-          - { platform: "linux/arm64/v8", internal-tag: "arm64v8" }
+          # Does not finish building
+          #- { platform: "linux/arm64/v8", internal-tag: "arm64v8" }
           - { platform: "linux/386", internal-tag: "386" }
-          - { platform: "linux/ppc64le", internal-tag: "ppc64le" }
+          # Does not finish building
+          #- { platform: "linux/ppc64le", internal-tag: "ppc64le" }
           - { platform: "linux/amd64", internal-tag: "amd64" }
     steps:
       - name: Checkout repository
@@ -175,9 +177,11 @@ jobs:
         include:
           - { platform: "linux/arm/v6", internal-tag: "armv6" }
           - { platform: "linux/arm/v7", internal-tag: "armv7" }
-          - { platform: "linux/arm64/v8", internal-tag: "arm64v8" }
+          # Does not finish building
+          #- { platform: "linux/arm64/v8", internal-tag: "arm64v8" }
           - { platform: "linux/386", internal-tag: "386" }
-          - { platform: "linux/ppc64le", internal-tag: "ppc64le" }
+          # Does not finish building
+          #- { platform: "linux/ppc64le", internal-tag: "ppc64le" }
           - { platform: "linux/amd64", internal-tag: "amd64" }
     steps:
       - name: Delete image
