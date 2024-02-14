@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns=
-    "http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" targetNamespace=
-    "http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a" elementFormDefault="qualified" attributeFormDefault="unqualified">
-
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a"
+    targetNamespace="http://schemas.microsoft.com/exchange/autodiscover/outlook/responseschema/2006a"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+>
     <xs:element name="Response">
         <xs:complexType>
             <xs:sequence>
