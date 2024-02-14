@@ -11,7 +11,7 @@ use rocket_dyn_templates::Template;
 use std::env;
 
 pub mod host_header;
-pub mod ressources;
+pub mod resources;
 pub mod routes;
 pub mod util;
 

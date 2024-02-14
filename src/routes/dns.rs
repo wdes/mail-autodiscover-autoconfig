@@ -1,5 +1,5 @@
 use crate::host_header::HostHeader;
-use crate::ressources::DnsTxtResponse::DnsTxtResponse;
+use crate::resources::DnsTxtResponse::DnsTxtResponse;
 use crate::util::{get_config_for_domain, Config};
 use rocket_dyn_templates::{context, Template};
 

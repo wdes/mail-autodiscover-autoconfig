@@ -1,5 +1,5 @@
 use crate::host_header::HostHeader;
-use crate::ressources::Version::Version;
+use crate::resources::Version::Version;
 use rocket::serde::json::Json;
 use rocket_dyn_templates::{context, Template};
 
