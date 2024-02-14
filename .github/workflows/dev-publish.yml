@@ -161,7 +161,8 @@ jobs:
               ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:armv6-edge \
               ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:armv7-edge \
               ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:386-edge \
-              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:amd64-edge
+              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:amd64-edge \
+              --amend
       - name: Push the manifest
         run: docker manifest push ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:edge
       - name: Inspect the manifest
@@ -189,6 +190,6 @@ jobs:
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
           owner: wdes
-          name: mail-autodiscover-autoconfig
+          name: mail-autodiscover-autoconfig/mail-autodiscover-autoconfig
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ matrix.internal-tag }}-edge
