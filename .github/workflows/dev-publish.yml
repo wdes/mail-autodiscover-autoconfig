@@ -24,7 +24,7 @@ jobs:
           name: mail-autodiscover-autoconfig/mail-autodiscover-autoconfig
           token: ${{ secrets.GITHUB_TOKEN }}
           # Keep latest N untagged images
-          untagged-keep-latest: 1
+          untagged-keep-latest: 6
 
   build-binaries:
     name: Build multi arch binaries (${{ matrix.arch }}-${{ matrix.variant }}) for ${{ matrix.os }}
@@ -44,10 +44,13 @@ jobs:
           - { os: linux, arch: aarch64, variant: musl }
 
           - { os: linux, arch: riscv64gc, variant: gnu }
-          - { os: linux, arch: riscv64gc, variant: musl }
+          # Toolchain not found
+          #- { os: linux, arch: riscv64gc, variant: musl }
 
-          - { os: linux, arch: riscv32gc, variant: gnu }
-          - { os: linux, arch: riscv32gc, variant: musl }
+          # Toolchain not found
+          #- { os: linux, arch: riscv32gc, variant: gnu }
+          # Toolchain not found
+          #- { os: linux, arch: riscv32gc, variant: musl }
 
           - { os: linux, arch: arm, variant: gnueabi }
           - { os: linux, arch: arm, variant: gnueabihf }
@@ -190,8 +193,7 @@ jobs:
               ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:armv6-edge \
               ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:armv7-edge \
               ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:386-edge \
-              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:amd64-edge \
-              --amend
+              ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:amd64-edge
       - name: Push the manifest
         run: docker manifest push ghcr.io/wdes/mail-autodiscover-autoconfig/mail-autodiscover-autoconfig:edge
       - name: Inspect the manifest
