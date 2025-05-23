@@ -49,3 +49,8 @@ docker-build:
 		$(EXTRA_ARGS) \
 		--file docker/Dockerfile \
 		./
+
+docker-clean:
+	@echo "Cleaning dangling images and build cache..."
+	docker image prune -f
+	docker builder prune -f

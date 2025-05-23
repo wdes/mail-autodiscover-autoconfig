@@ -16,6 +16,7 @@ pub fn dns_txt_zone(host: HostHeader) -> DnsTxtResponse {
                 imap_hostname: config.imap_hostname,
                 pop_hostname: config.pop_hostname,
                 smtp_hostname: config.smtp_hostname,
+                pop_leave_on_server: config.pop_leave_on_server,
             },
         ),
     }

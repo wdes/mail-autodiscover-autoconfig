@@ -74,6 +74,7 @@ services:
             IMAP_HOSTNAME: imap.mails.provider.tld
             POP_HOSTNAME: pop.mails.provider.tld
             SMTP_HOSTNAME: smtp.mails.provider.tld
+            POP3_LEAVE_ON_SERVER: 0
 ```
 
 ### Install on Apple

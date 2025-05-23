@@ -22,6 +22,7 @@ fn handle_mail_config_v11(host: HostHeader) -> AutoDiscoverXml {
                 imap_hostname: config.imap_hostname,
                 pop_hostname: config.pop_hostname,
                 smtp_hostname: config.smtp_hostname,
+                pop_leave_on_server: config.pop_leave_on_server,
             },
         ),
     }
@@ -146,6 +147,7 @@ fn autodiscover_microsoft(
                             imap_hostname: config.imap_hostname,
                             pop_hostname: config.pop_hostname,
                             smtp_hostname: config.smtp_hostname,
+                            pop_leave_on_server: config.pop_leave_on_server,
                         },
                     ),
                 })
@@ -173,6 +175,7 @@ fn autodiscover_microsoft(
                     imap_hostname: config.imap_hostname,
                     pop_hostname: config.pop_hostname,
                     smtp_hostname: config.smtp_hostname,
+                    pop_leave_on_server: config.pop_leave_on_server,
                 },
             ),
         }),
@@ -253,6 +256,7 @@ pub fn mail_autodiscover_apple_mobileconfig(host: HostHeader, email: &str) -> Ap
                 imap_hostname: config.imap_hostname,
                 pop_hostname: config.pop_hostname,
                 smtp_hostname: config.smtp_hostname,
+                pop_leave_on_server: config.pop_leave_on_server,
                 email_address: email,
                 username: email,
                 mail_uuid: mail_uuid,
@@ -274,6 +278,7 @@ mod tests {
                 ("IMAP_HOSTNAME", Some("imap.foo.tld")),
                 ("POP_HOSTNAME", Some("pop.example.tld")),
                 ("SMTP_HOSTNAME", Some("smtp.domain.tld")),
+                ("POP_LEAVE_ON_SERVER", Some("0")),
             ],
             || {
                 assert_eq!(
@@ -283,6 +288,7 @@ mod tests {
                         imap_hostname: "imap.foo.tld".to_string(),
                         pop_hostname: "pop.foo.tld".to_string(),
                         smtp_hostname: "smtp.foo.tld".to_string(),
+                        pop_leave_on_server: Some(0),
                     },
                     get_config_for_domain("foo.tld")
                 );
@@ -294,6 +300,7 @@ mod tests {
                 ("IMAP_HOSTNAME", Some("imap.custom.tld")),
                 ("POP_HOSTNAME", Some("pop.example.tld")),
                 ("SMTP_HOSTNAME", Some("smtp.domain.tld")),
+                ("POP_LEAVE_ON_SERVER", Some("0")),
             ],
             || {
                 assert_eq!(
@@ -303,6 +310,7 @@ mod tests {
                         imap_hostname: "imap.custom.tld".to_string(),
                         pop_hostname: "pop.example.tld".to_string(),
                         smtp_hostname: "smtp.domain.tld".to_string(),
+                        pop_leave_on_server: Some(0),
                     },
                     get_config_for_domain("foo.tld")
                 );
@@ -313,6 +321,7 @@ mod tests {
                 ("IMAP_HOSTNAME", Some("imap.custom.tld")),
                 ("POP_HOSTNAME", Some("pop.example.tld")),
                 ("SMTP_HOSTNAME", Some("smtp.domain.tld")),
+                ("POP_LEAVE_ON_SERVER", Some("0")),
             ],
             || {
                 assert_eq!(
@@ -322,6 +331,7 @@ mod tests {
                         imap_hostname: "imap.custom.tld".to_string(),
                         pop_hostname: "pop.example.tld".to_string(),
                         smtp_hostname: "smtp.domain.tld".to_string(),
+                        pop_leave_on_server: Some(0),
                     },
                     get_config_for_domain("foo.tld")
                 );

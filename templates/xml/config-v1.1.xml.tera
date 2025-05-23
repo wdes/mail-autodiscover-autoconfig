@@ -21,15 +21,18 @@
             <username>%EMAILADDRESS%</username>
         </incomingServer>
 
+{% if pop_leave_on_server is defined and pop_leave_on_server | int > 0 %}
         <incomingServer type="pop3">
             <hostname>{{ pop_hostname }}</hostname>
             <port>995</port>
             <socketType>SSL</socketType>
             <authentication>password-cleartext</authentication>
             <username>%EMAILADDRESS%</username>
-            <leaveMessagesOnServer>false</leaveMessagesOnServer>
-            <downloadOnBiff>true</downloadOnBiff>
-            <daysToLeaveMessagesOnServer>0</daysToLeaveMessagesOnServer>
+            <pop3>
+               <leaveMessagesOnServer>true</leaveMessagesOnServer>
+               <downloadOnBiff>true</downloadOnBiff>
+               <daysToLeaveMessagesOnServer>{{pop_leave_on_server}}</daysToLeaveMessagesOnServer>
+            </pop3>
         </incomingServer>
         <incomingServer type="pop3">
             <hostname>{{ pop_hostname }}</hostname>
@@ -37,10 +40,38 @@
             <socketType>STARTTLS</socketType>
             <authentication>password-cleartext</authentication>
             <username>%EMAILADDRESS%</username>
-            <leaveMessagesOnServer>false</leaveMessagesOnServer>
-            <downloadOnBiff>true</downloadOnBiff>
-            <daysToLeaveMessagesOnServer>0</daysToLeaveMessagesOnServer>
+            <pop3>
+               <leaveMessagesOnServer>true</leaveMessagesOnServer>
+               <downloadOnBiff>true</downloadOnBiff>
+               <daysToLeaveMessagesOnServer>{{pop_leave_on_server}}</daysToLeaveMessagesOnServer>
+            </pop3>
         </incomingServer>
+{% else %}
+        <incomingServer type="pop3">
+            <hostname>{{ pop_hostname }}</hostname>
+            <port>995</port>
+            <socketType>SSL</socketType>
+            <authentication>password-cleartext</authentication>
+            <username>%EMAILADDRESS%</username>
+            <pop3>
+               <leaveMessagesOnServer>false</leaveMessagesOnServer>
+               <downloadOnBiff>true</downloadOnBiff>
+               <daysToLeaveMessagesOnServer>0</daysToLeaveMessagesOnServer>
+            </pop3>
+        </incomingServer>
+        <incomingServer type="pop3">
+            <hostname>{{ pop_hostname }}</hostname>
+            <port>110</port>
+            <socketType>STARTTLS</socketType>
+            <authentication>password-cleartext</authentication>
+            <username>%EMAILADDRESS%</username>
+            <pop3>
+               <leaveMessagesOnServer>false</leaveMessagesOnServer>
+               <downloadOnBiff>true</downloadOnBiff>
+               <daysToLeaveMessagesOnServer>0</daysToLeaveMessagesOnServer>
+            </pop3>
+        </incomingServer>
+{% endif %}
 
         <outgoingServer type="smtp">
             <hostname>{{ smtp_hostname }}</hostname>
